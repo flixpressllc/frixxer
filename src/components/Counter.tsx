@@ -7,11 +7,17 @@ export default () => {
   return (
     <div>
       <div className="text-red">The count is {count}</div>
-      <button className="bg-blue-lighter p-2 m-2 rounded" onClick={inc}>
-        Increment
-      </button>
-      <button className="bg-blue-lighter p-2 m-2 rounded" onClick={dec}>
+      <button
+        className="bg-blue-lighter px-2 py-1 m-2 rounded-lg"
+        onClick={dec}
+      >
         Decrement
+      </button>
+      <button
+        className="bg-blue-lighter px-2 py-1 m-2 rounded-lg"
+        onClick={inc}
+      >
+        Increment
       </button>
     </div>
   );
