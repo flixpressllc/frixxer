@@ -6,9 +6,13 @@ export default () => {
   const dec = () => setCount(count - 1);
   return (
     <div>
-      <div>The count is {count}</div>
-      <button onClick={inc}>Increment</button>
-      <button onClick={dec}>Decrement</button>
+      <div className="text-red">The count is {count}</div>
+      <button className="bg-blue-lighter p-2 m-2 rounded" onClick={inc}>
+        Increment
+      </button>
+      <button className="bg-blue-lighter p-2 m-2 rounded" onClick={dec}>
+        Decrement
+      </button>
     </div>
   );
 };
