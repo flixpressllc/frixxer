@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Counter from './Counter';
+import { render, fireEvent } from 'react-testing-library';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
@@ -9,17 +10,14 @@ it('renders without crashing', () => {
 });
 
 describe('Couter interactions', () => {
-  let el: HTMLDivElement;
-  let component: React.Component;
-  beforeEach(() => {
-    el = document.createElement('div');
-    component = ReactDOM.render(<Counter />, el) as React.Component;
-  });
-  afterEach(() => {
-    ReactDOM.unmountComponentAtNode(el);
-  });
-
   it('counts up', () => {
-    // component.
+    const { getByText } = render(<Counter />);
+    expect(getByText('The count is', { exact: false }).textContent).toMatch(
+      '0',
+    );
+    fireEvent.click(getByText('Increment'));
+    expect(getByText('The count is', { exact: false }).textContent).toMatch(
+      '1',
+    );
   });
 });
