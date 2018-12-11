@@ -10,7 +10,7 @@ export default ({ videos }: Props) => {
   const [lastProps, setLastProps] = useState(videos);
 
   const nextVid = () => {
-    const [head, ...tail] = videoList;
+    const [_head, ...tail] = videoList;
     setVideoList(tail);
   };
 

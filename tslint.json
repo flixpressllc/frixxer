@@ -6,7 +6,8 @@
     "quotemark": [true, "single", "jsx-double"],
     "ordered-imports": false,
     "interface-name": false,
-    "arrow-parens": false
+    "arrow-parens": false,
+    "variable-name": [true, "allow-leading-underscore"]
   },
   "rulesDirectory": []
 }
