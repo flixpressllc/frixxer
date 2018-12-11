@@ -8,10 +8,12 @@ interface Props {
 export default ({ videos }: Props) => {
   const [videoList, setVideoList] = useState(videos);
   const [lastProps, setLastProps] = useState(videos);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextVid = () => {
-    const [_head, ...tail] = videoList;
-    setVideoList(tail);
+    if (currentIndex < videoList.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
   };
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export default ({ videos }: Props) => {
   });
 
   return (
-    <div className="text-white">
+    <div className="text-white flex flex-wrap">
       {videoList.map(x => (
         <span key={x} className="p-2">
           {x}
@@ -31,7 +33,7 @@ export default ({ videos }: Props) => {
       ))}
       <video
         className="max-w-full"
-        src={videoList[0]}
+        src={videoList[currentIndex]}
         autoPlay
         onEnded={nextVid}
       />
