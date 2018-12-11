@@ -24,7 +24,11 @@ export default ({ videos }: Props) => {
 
   return (
     <div className="text-white">
-      {videoList}
+      {videoList.map(x => (
+        <span key={x} className="p-2">
+          {x}
+        </span>
+      ))}
       <video
         className="max-w-full"
         src={videoList[0]}
