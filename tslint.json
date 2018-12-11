@@ -5,7 +5,8 @@
   "rules": {
     "quotemark": [true, "single", "jsx-double"],
     "ordered-imports": false,
-    "interface-name": false
+    "interface-name": false,
+    "arrow-parens": false
   },
   "rulesDirectory": []
 }
