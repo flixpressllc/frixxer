@@ -46,8 +46,13 @@ export default ({ videos }: Props) => {
 
   const player1: React.MutableRefObject<null | HTMLVideoElement> = useRef(null);
   const player2: React.MutableRefObject<null | HTMLVideoElement> = useRef(null);
+  const [currentPlayer, setCurrentPlayer] = useState(
+    null as null | HTMLVideoElement,
+  );
+  const [nextPlayer, setNextPlayer] = useState(null as null | HTMLVideoElement);
   const [player1Ready, setPlayer1Ready] = useState(false);
   const [player2Ready, setPlayer2Ready] = useState(false);
+  const [updateCount, setUpdateCount] = useState(0);
   function reportReady(playerEl: HTMLVideoElement) {
     if (playerEl === player1.current) {
       setPlayer1Ready(true);
@@ -67,12 +72,36 @@ export default ({ videos }: Props) => {
   }
   useEffect(
     () => {
+      makeCurrent(player1);
+    },
+    ['once'],
+  );
+  useEffect(
+    () => {
+      const endMatchCurrent = new RegExp(currentSrc + '$');
+      const endMatchNext = new RegExp(nextSrc + '$');
+      if (
+        currentSrc &&
+        currentPlayer &&
+        !endMatchCurrent.test(currentPlayer.src)
+      ) {
+        currentPlayer.src = currentSrc;
+      }
+      if (nextSrc && nextPlayer && !endMatchNext.test(nextPlayer.src)) {
+        nextPlayer.src = nextSrc;
+      }
+    },
+    [currentPlayer, nextPlayer],
+  );
+  useEffect(
+    () => {
       [player1, player2].forEach(ref => {
         if (!ref.current) {
           throw new Error('players were not properly referenced');
         }
         const endMatch = new RegExp(currentSrc + '$');
         if (endMatch.test(ref.current.src)) {
+          makeCurrent(ref);
           const playerReady = ref === player1 ? player1Ready : player2Ready;
           if (playerReady) {
             play(ref.current);
@@ -80,18 +109,36 @@ export default ({ videos }: Props) => {
         }
       });
     },
-    [currentSrc, nextSrc, player1Ready, player2Ready, player1, player2],
+    [currentSrc, nextSrc, player1Ready, player2Ready],
   );
-  function player(key: number, ref: any, initialSrc: string | undefined) {
-    // const isCurrent = key === currentPlayerKey.current;
-    // const className = isCurrent ? 'max-w-full relative z-10' : 'absolute max-w-full z-0';
-    const className = 'max-w-1/2 relative z-10';
+  function makeCurrent(ref: React.MutableRefObject<HTMLVideoElement | null>) {
+    setCurrentPlayer(ref.current);
+    setNextPlayer(player1 === ref ? player2.current : player1.current);
+  }
+  function updatePlayerRef(
+    ref: React.MutableRefObject<null | HTMLVideoElement>,
+    el: HTMLVideoElement | null,
+  ) {
+    if (ref.current === el) {
+      return;
+    }
+    if (updateCount === 0) {
+      setUpdateCount(1);
+    }
+    ref.current = el;
+  }
+  function player(
+    key: number,
+    ref: React.MutableRefObject<null | HTMLVideoElement>,
+  ) {
+    const isCurrent = ref.current === currentPlayer;
+    const className =
+      'max-w-full ' + (isCurrent ? 'z-10 relative' : 'z-0 absolute');
     return (
       <video
-        ref={ref}
+        ref={el => updatePlayerRef(ref, el)}
         key={key}
         className={className}
-        src={initialSrc}
         onEnded={handleEnded}
         controls={blocked}
         onCanPlayThrough={ev => reportReady(ev.currentTarget)}
@@ -115,7 +162,7 @@ export default ({ videos }: Props) => {
         </div>
       </div>
       <div className="relative max-w-full">
-        {[[1, player1, currentSrc], [2, player2, nextSrc]].map(x =>
+        {[[1, player1], [2, player2]].map(x =>
           // @ts-ignore
           player(...x),
         )}
