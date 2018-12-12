@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { deepEqual } from 'happy-helpers';
 
 interface Props {
@@ -93,6 +93,7 @@ export default ({ videos }: Props) => {
       if (
         currentSrc &&
         currentPlayer &&
+        currentPlayer.paused &&
         !endMatchCurrent.test(currentPlayer.src)
       ) {
         currentPlayer.src = currentSrc;
@@ -101,7 +102,7 @@ export default ({ videos }: Props) => {
         nextPlayer.src = nextSrc;
       }
     },
-    [currentPlayer, nextPlayer],
+    [currentPlayer, nextPlayer, nextSrc, currentSrc],
   );
   useEffect(
     () => {
