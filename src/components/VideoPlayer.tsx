@@ -143,7 +143,7 @@ export default ({ videos }: Props) => {
   ) {
     const isCurrent = ref.current === currentPlayer;
     const className =
-      'max-w-full ' + (isCurrent ? 'z-10 relative' : 'z-0 absolute');
+      'max-w-full ' + (isCurrent ? 'z-10 relative' : 'z-0 absolute pin');
     return (
       <video
         ref={el => updatePlayerRef(ref, el)}
