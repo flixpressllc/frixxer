@@ -7,7 +7,8 @@
     "ordered-imports": false,
     "interface-name": false,
     "arrow-parens": false,
-    "variable-name": [true, "allow-leading-underscore"]
+    "variable-name": [true, "allow-leading-underscore"],
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": []
 }
