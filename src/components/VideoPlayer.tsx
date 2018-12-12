@@ -30,7 +30,7 @@ export default ({ videos }: Props) => {
   const [blocked, setBlocked] = useState(false);
   const play = (ev: SyntheticEvent<HTMLVideoElement>) => {
     ev.currentTarget.play().catch(() => {
-      // Autoplay is bloked due to lack of interaction
+      // Autoplay is blocked, likely due to lack of interaction
       setBlocked(true);
     });
   };
