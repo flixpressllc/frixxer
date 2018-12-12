@@ -5,19 +5,15 @@ interface Props {
   videos: string[];
 }
 
-export default ({ videos }: Props) => {
+function useVideoQueue(videos: string[]) {
   const [videoList, setVideoList] = useState(videos);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleEnded = () => {
-    if (currentIndex < videoList.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex(-1);
-    }
-  };
-
   const currentSrc = currentIndex > -1 ? videoList[currentIndex] : undefined;
+  const nextSrc =
+    currentSrc && videoList[currentIndex + 1]
+      ? videoList[currentIndex + 1]
+      : undefined;
   const [lastProps, setLastProps] = useState(videos);
   if (!deepEqual(lastProps, videos)) {
     setLastProps(videos);
@@ -27,10 +23,24 @@ export default ({ videos }: Props) => {
     setVideoList([...videoList, ...videos]);
   }
 
-  const nextSrc =
-    currentSrc && videoList[currentIndex + 1]
-      ? videoList[currentIndex + 1]
-      : undefined;
+  const advance = () => {
+    if (currentIndex < videoList.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(-1);
+    }
+  };
+
+  type PossibleVid = string | undefined;
+  return [advance, currentSrc, nextSrc] as [
+    () => void,
+    PossibleVid,
+    PossibleVid
+  ];
+}
+
+export default ({ videos }: Props) => {
+  const [handleEnded, currentSrc, nextSrc] = useVideoQueue(videos);
 
   const [blocked, setBlocked] = useState(false);
   const play = (playerEl: HTMLVideoElement) => {
@@ -149,18 +159,6 @@ export default ({ videos }: Props) => {
 
   return (
     <div className="text-white">
-      <div className="(dev) hidden">
-        <ol>
-          {videoList.map((x, i) => (
-            <li key={i} className="p-2">
-              {x}
-            </li>
-          ))}
-        </ol>
-        <div>
-          Index: {currentIndex + 1} - {currentSrc}
-        </div>
-      </div>
       <div className="relative max-w-full">
         {[[1, player1], [2, player2]].map(x =>
           // @ts-ignore
