@@ -26,49 +26,52 @@ export default ({ videos }: Props) => {
     null as null | HTMLVideoElement,
   );
   const [nextPlayer, setNextPlayer] = useState(null as null | HTMLVideoElement);
-  const [player1Ready, setPlayer1Ready] = useState(false);
-  const [player2Ready, setPlayer2Ready] = useState(false);
-  const [updateCount, setUpdateCount] = useState(0);
-  function reportReady(playerEl: HTMLVideoElement) {
+  const [player1Loaded, setPlayer1Loaded] = useState(false);
+  const [player2Loaded, setPlayer2Loaded] = useState(false);
+  const noPlayersLoaded = !player1Loaded && !player2Loaded;
+  function reportLoaded(playerEl: HTMLVideoElement) {
     if (playerEl === player1.current) {
-      setPlayer1Ready(true);
+      setPlayer1Loaded(true);
     }
     if (playerEl === player2.current) {
-      setPlayer2Ready(true);
+      setPlayer2Loaded(true);
     }
   }
   function reportPlaying(playerEl: HTMLVideoElement) {
     notBlocked();
     if (playerEl === player1.current) {
-      setPlayer1Ready(false);
+      setPlayer1Loaded(false);
     }
     if (playerEl === player2.current) {
-      setPlayer2Ready(false);
+      setPlayer2Loaded(false);
     }
   }
   useEffect(
     () => {
       makeCurrent(player1);
+      player1.current!.src = currentSrc as string;
     },
     ['once'],
   );
   useEffect(
     () => {
-      const endMatchCurrent = new RegExp(currentSrc + '$');
       const endMatchNext = new RegExp(nextSrc + '$');
-      if (
-        currentSrc &&
-        currentPlayer &&
-        currentPlayer.paused &&
-        !endMatchCurrent.test(currentPlayer.src)
-      ) {
-        currentPlayer.src = currentSrc;
-      }
       if (nextSrc && nextPlayer && !endMatchNext.test(nextPlayer.src)) {
         nextPlayer.src = nextSrc;
       }
     },
-    [currentPlayer, nextPlayer, nextSrc, currentSrc],
+    [nextPlayer],
+  );
+  useEffect(
+    () => {
+      if (noPlayersLoaded) {
+        const endMatchNext = new RegExp(nextSrc + '$');
+        if (nextSrc && nextPlayer && !endMatchNext.test(nextPlayer.src)) {
+          nextPlayer.src = nextSrc;
+        }
+      }
+    },
+    [nextSrc],
   );
   useEffect(
     () => {
@@ -79,30 +82,18 @@ export default ({ videos }: Props) => {
         const endMatch = new RegExp(currentSrc + '$');
         if (endMatch.test(ref.current.src)) {
           makeCurrent(ref);
-          const playerReady = ref === player1 ? player1Ready : player2Ready;
+          const playerReady = ref === player1 ? player1Loaded : player2Loaded;
           if (playerReady) {
             play(ref.current);
           }
         }
       });
     },
-    [currentSrc, nextSrc, player1Ready, player2Ready],
+    [currentSrc, player1Loaded, player2Loaded],
   );
   function makeCurrent(ref: React.MutableRefObject<HTMLVideoElement | null>) {
     setCurrentPlayer(ref.current);
     setNextPlayer(player1 === ref ? player2.current : player1.current);
-  }
-  function updatePlayerRef(
-    ref: React.MutableRefObject<null | HTMLVideoElement>,
-    el: HTMLVideoElement | null,
-  ) {
-    if (ref.current === el) {
-      return;
-    }
-    if (updateCount === 0) {
-      setUpdateCount(1);
-    }
-    ref.current = el;
   }
   function player(
     key: number,
@@ -113,12 +104,12 @@ export default ({ videos }: Props) => {
       'max-w-full ' + (isCurrent ? 'z-10 relative' : 'z-0 absolute pin');
     return (
       <video
-        ref={el => updatePlayerRef(ref, el)}
+        ref={ref}
         key={key}
         className={className}
         onEnded={handleEnded}
         controls={blocked}
-        onCanPlayThrough={ev => reportReady(ev.currentTarget)}
+        onCanPlayThrough={ev => reportLoaded(ev.currentTarget)}
         onPlay={ev => reportPlaying(ev.currentTarget)}
       />
     );
