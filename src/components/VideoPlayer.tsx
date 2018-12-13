@@ -1,46 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { deepEqual } from 'happy-helpers';
+import { useQueue } from '../custom-hooks/useQueue';
 
 interface Props {
   videos: string[];
 }
 
-function useVideoQueue(videos: string[]) {
-  const [videoList, setVideoList] = useState(videos);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const currentSrc = currentIndex > -1 ? videoList[currentIndex] : undefined;
-  const nextSrc =
-    currentSrc && videoList[currentIndex + 1]
-      ? videoList[currentIndex + 1]
-      : undefined;
-  const [lastProps, setLastProps] = useState(videos);
-  if (!deepEqual(lastProps, videos)) {
-    setLastProps(videos);
-    if (!currentSrc) {
-      setCurrentIndex(videoList.length);
-    }
-    setVideoList([...videoList, ...videos]);
-  }
-
-  const advance = () => {
-    if (currentIndex < videoList.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex(-1);
-    }
-  };
-
-  type PossibleVid = string | undefined;
-  return [advance, currentSrc, nextSrc] as [
-    () => void,
-    PossibleVid,
-    PossibleVid
-  ];
-}
-
 export default ({ videos }: Props) => {
-  const [handleEnded, currentSrc, nextSrc] = useVideoQueue(videos);
+  const [handleEnded, currentSrc, nextSrc] = useQueue(videos);
 
   const [blocked, setBlocked] = useState(false);
   const play = (playerEl: HTMLVideoElement) => {
