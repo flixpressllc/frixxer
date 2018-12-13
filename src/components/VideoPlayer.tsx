@@ -48,10 +48,17 @@ export default ({ videos }: Props) => {
   }
   useEffect(
     () => {
-      makeCurrent(player1);
-      player1.current!.src = currentSrc as string;
+      if (!currentSrc && nextSrc) {
+        handleEnded();
+      }
+      if (currentSrc) {
+        makeCurrent(player1);
+        if (player1.current) {
+          player1.current.src = currentSrc;
+        }
+      }
     },
-    ['once'],
+    [currentSrc === undefined],
   );
   useEffect(
     () => {
