@@ -46,7 +46,9 @@ export default ({ videos }: Props) => {
       setPlayer2Loaded(false);
     }
   }
+
   useEffect(
+    // Ensure that any pending video will play, even if loaded later
     () => {
       if (!currentSrc && nextSrc) {
         handleEnded();
@@ -60,7 +62,10 @@ export default ({ videos }: Props) => {
     },
     [currentSrc === undefined],
   );
+
   useEffect(
+    // When a player becomes the next player, change to the nextSrc
+    // to start preloading
     () => {
       const endMatchNext = new RegExp(nextSrc + '$');
       if (nextSrc && nextPlayer && !endMatchNext.test(nextPlayer.src)) {
@@ -69,7 +74,10 @@ export default ({ videos }: Props) => {
     },
     [nextPlayer],
   );
+
   useEffect(
+    // set next player's src when nextSrc was undefined, but becomes defined while
+    // current player is playing.
     () => {
       if (noPlayersLoaded) {
         const endMatchNext = new RegExp(nextSrc + '$');
@@ -80,6 +88,7 @@ export default ({ videos }: Props) => {
     },
     [nextSrc],
   );
+
   useEffect(
     () => {
       [player1, player2].forEach(ref => {
