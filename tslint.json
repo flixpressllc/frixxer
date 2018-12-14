@@ -1,11 +1,14 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "jsRules": {},
   "rules": {
     "quotemark": [true, "single", "jsx-double"],
     "ordered-imports": false,
-    "interface-name": false
+    "interface-name": false,
+    "arrow-parens": false,
+    "variable-name": [true, "allow-leading-underscore"],
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": []
 }
