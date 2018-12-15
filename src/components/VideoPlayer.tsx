@@ -117,7 +117,8 @@ export default (props: Props) => {
   ) {
     const isCurrent = ref.current === currentPlayer;
     const className =
-      'max-w-full ' + (isCurrent ? 'z-10 relative' : 'z-0 absolute pin');
+      'max-w-full block m-auto ' +
+      (isCurrent ? 'z-10 relative' : 'z-0 absolute pin');
     return (
       <video
         ref={ref}

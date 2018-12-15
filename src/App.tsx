@@ -8,7 +8,7 @@ export default () => {
 
   return (
     <div className="h-screen w-screen bg-blue-darkest">
-      <VideoPlayer videos={videos} />
+      <VideoPlayer videos={videos} className="m-auto w-1/2" />
       <Ticker
         items={['Test One', 'Test Two']}
         className="bg-black text-yellow text-5xl"
