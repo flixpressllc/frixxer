@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQueue } from '../custom-hooks/useQueue';
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   videos: string[];
 }
 
-export default ({ videos }: Props) => {
-  const [handleEnded, currentSrc, nextSrc] = useQueue(videos);
+export default (props: Props) => {
+  const [handleEnded, currentSrc, nextSrc] = useQueue(props.videos);
 
   const [blocked, setBlocked] = useState(false);
   const play = (playerEl: HTMLVideoElement) => {
@@ -132,7 +132,7 @@ export default ({ videos }: Props) => {
   }
 
   return (
-    <div className="text-white">
+    <div {...{ ...props, videos: undefined }}>
       <div className="relative max-w-full">
         {[[1, player1], [2, player2]].map(x =>
           // @ts-ignore
