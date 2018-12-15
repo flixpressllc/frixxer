@@ -7,9 +7,12 @@ export default () => {
   const [videos] = useVideoFeed();
 
   return (
-    <div className="h-screen w-screen bg-blue-darkest text-white">
+    <div className="h-screen w-screen bg-blue-darkest">
       <VideoPlayer videos={videos} />
-      <Ticker items={['Test One', 'Test Two']} />
+      <Ticker
+        items={['Test One', 'Test Two']}
+        className="bg-black text-yellow text-5xl"
+      />
     </div>
   );
 };
