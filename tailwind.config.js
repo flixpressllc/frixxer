@@ -126,6 +126,14 @@ let colors = {
   'pink-light': '#fa7ea8',
   'pink-lighter': '#ffbbca',
   'pink-lightest': '#ffebef',
+
+  'shade-darkest': 'rgba(0,0,0, 0.9)',
+  'shade-darker': 'rgba(0,0,0, 0.75)',
+  'shade-dark': 'rgba(0,0,0, 0.6)',
+  shade: 'rgba(0,0,0, 0.5)',
+  'shade-light': 'rgba(0,0,0, 0.4)',
+  'shade-lighter': 'rgba(0,0,0, 0.25)',
+  'shade-lightest': 'rgba(0,0,0, 0.1)',
 };
 
 module.exports = {
