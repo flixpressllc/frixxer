@@ -5,7 +5,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   videos: string[];
 }
 
-export default (props: Props) => {
+export default function VideoPlayer(props: Props) {
   const [handleEnded, currentSrc, nextSrc] = useQueue(props.videos);
 
   const [blocked, setBlocked] = useState(false);
@@ -142,4 +142,4 @@ export default (props: Props) => {
       </div>
     </div>
   );
-};
+}

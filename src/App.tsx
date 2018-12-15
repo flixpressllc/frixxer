@@ -3,7 +3,7 @@ import VideoPlayer from './components/VideoPlayer';
 import { useVideoFeed } from './utils/dev-utils';
 import Ticker from './components/Ticker';
 
-export default () => {
+export default function App() {
   const [videos] = useVideoFeed();
 
   return (
@@ -15,4 +15,4 @@ export default () => {
       />
     </div>
   );
-};
+}

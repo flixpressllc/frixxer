@@ -17,7 +17,7 @@ function useWindowWidth() {
   return width;
 }
 
-export default (props: Props) => {
+export default function Ticker(props: Props) {
   const ticker = useRef(null as HTMLDivElement | null);
   const windowWidth = useWindowWidth();
   useEffect(
@@ -46,4 +46,4 @@ export default (props: Props) => {
       </div>
     </div>
   );
-};
+}
