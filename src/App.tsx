@@ -11,7 +11,7 @@ export default () => {
       <VideoPlayer videos={videos} className="m-auto w-1/2" />
       <Ticker
         items={['Test One', 'Test Two']}
-        className="bg-shade text-yellow text-5xl"
+        className="bg-shade text-yellow text-5xl font-bold"
       />
     </div>
   );
