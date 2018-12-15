@@ -3,6 +3,7 @@ import './Ticker.css';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   items: string[];
+  pxPerSecond?: number;
 }
 
 function useWindowWidth() {
@@ -22,14 +23,14 @@ export default function Ticker(props: Props) {
   const windowWidth = useWindowWidth();
   useEffect(
     () => {
-      const pxPerSecond = 200;
+      const pxPerSecond = props.pxPerSecond || 200;
       const tickerWidth = ticker.current!.clientWidth;
       const tickerWrapperWidth = ticker.current!.parentElement!.clientWidth;
       const fullWidth = tickerWidth + tickerWrapperWidth;
       const duration = fullWidth / pxPerSecond;
       ticker.current!.style.animationDuration = `${duration}s`;
     },
-    [props.items, ticker.current, windowWidth],
+    [props.items, props.pxPerSecond, ticker.current, windowWidth],
   );
   return (
     <div {...{ ...props, items: undefined }}>

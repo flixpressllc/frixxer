@@ -10,6 +10,7 @@ export default function App() {
     <div className="h-screen w-screen bg-blue-darkest">
       <VideoPlayer videos={videos} className="m-auto w-1/2" />
       <Ticker
+        pxPerSecond={300}
         items={['Test One', 'Test Two']}
         className="bg-shade text-yellow text-5xl font-bold"
       />
