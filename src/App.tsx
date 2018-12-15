@@ -8,11 +8,11 @@ export default function App() {
 
   return (
     <div className="h-screen w-screen bg-blue-darkest">
-      <VideoPlayer videos={videos} className="m-auto w-1/2" />
+      <VideoPlayer videos={videos} className="mx-auto w-4/5" />
       <Ticker
         pxPerSecond={300}
         items={['Test One', 'Test Two']}
-        className="bg-shade text-yellow text-5xl font-bold"
+        className="bg-shade text-yellow text-5xl font-bold pin-b pin-r w-full fixed"
       />
     </div>
   );
