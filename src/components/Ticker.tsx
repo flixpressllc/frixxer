@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Ticker.css';
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   items: string[];
 }
 
@@ -17,7 +17,7 @@ function useWindowWidth() {
   return width;
 }
 
-export default ({ items }: Props) => {
+export default (props: Props) => {
   const ticker = useRef(null as HTMLDivElement | null);
   const windowWidth = useWindowWidth();
   useEffect(
@@ -29,18 +29,20 @@ export default ({ items }: Props) => {
       const duration = fullWidth / pxPerSecond;
       ticker.current!.style.animationDuration = `${duration}s`;
     },
-    [items, ticker.current, windowWidth],
+    [props.items, ticker.current, windowWidth],
   );
   return (
-    <div className="ticker-wrapper">
-      <div ref={ticker} className="ticker">
-        {items.map((text, i) => {
-          return (
-            <span className="ticker-item" key={i}>
-              {text}
-            </span>
-          );
-        })}
+    <div {...{ ...props, items: undefined }}>
+      <div className="ticker-wrapper">
+        <div ref={ticker} className="ticker">
+          {props.items.map((text, i) => {
+            return (
+              <span className="ticker-item" key={i}>
+                {text}
+              </span>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
