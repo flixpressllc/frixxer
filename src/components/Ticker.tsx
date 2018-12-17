@@ -32,8 +32,14 @@ export default function Ticker(props: Props) {
     },
     [props.items, props.pxPerSecond, ticker.current, windowWidth],
   );
+
+  // Remove non-div props
+  const domProps = { ...props };
+  delete domProps.pxPerSecond;
+  delete domProps.items;
+
   return (
-    <div {...{ ...props, items: undefined }}>
+    <div {...domProps}>
       <div className="ticker-wrapper">
         <div ref={ticker} className="ticker">
           {props.items.map((text, i) => {
