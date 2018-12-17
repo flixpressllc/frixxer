@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQueue } from '../custom-hooks/useQueue';
+import { removeProps } from '../utils';
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface ComponentProps {
   videos: string[];
 }
+
+interface Props extends React.HTMLAttributes<HTMLDivElement>, ComponentProps {}
 
 export default function VideoPlayer(props: Props) {
   const [handleEnded, currentSrc, nextSrc] = useQueue(props.videos);
@@ -132,8 +135,10 @@ export default function VideoPlayer(props: Props) {
     );
   }
 
+  const divProps = removeProps(props, 'videos');
+
   return (
-    <div {...{ ...props, videos: undefined }}>
+    <div {...divProps}>
       <div className="relative max-w-full">
         {[[1, player1], [2, player2]].map(x =>
           // @ts-ignore

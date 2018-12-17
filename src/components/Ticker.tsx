@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Ticker.css';
+import { removeProps } from '../utils';
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface ComponentProps {
   items: string[];
   pxPerSecond?: number;
 }
+
+interface Props extends React.HTMLAttributes<HTMLDivElement>, ComponentProps {}
 
 function useWindowWidth() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -34,12 +37,10 @@ export default function Ticker(props: Props) {
   );
 
   // Remove non-div props
-  const domProps = { ...props };
-  delete domProps.pxPerSecond;
-  delete domProps.items;
+  const divProps = removeProps(props, 'pxPerSecond', 'items');
 
   return (
-    <div {...domProps}>
+    <div {...divProps}>
       <div className="ticker-wrapper">
         <div ref={ticker} className="ticker">
           {props.items.map((text, i) => {
