@@ -3,7 +3,7 @@ import DefaultLayout from './components/DefaultLayout';
 
 export default function App() {
   return (
-    <div className="bg-blue-darker">
+    <div>
       <DefaultLayout />
     </div>
   );

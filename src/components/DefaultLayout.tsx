@@ -14,7 +14,7 @@ export default function DefaultLayout(props: Props) {
   return (
     <div
       {...props}
-      className="h-screen flex flex-col justify-between p-4 overflow-x-hidden"
+      className=" bg-blue-darker h-screen flex flex-col justify-between p-4 overflow-x-hidden"
     >
       <div className="flex">
         <div className="bg-grey h-32 w-32">Logo</div>
