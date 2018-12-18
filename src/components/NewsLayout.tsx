@@ -2,6 +2,7 @@ import React from 'react';
 import VideoPlayer from './VideoPlayer';
 import { useVideoFeed } from '../utils/dev-utils';
 import Ticker from './Ticker';
+import Logo from './Logo';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -16,7 +17,7 @@ export default function DefaultLayout(props: Props) {
       className=" bg-blue-darker h-screen flex flex-col justify-between p-4 overflow-x-hidden"
     >
       <div className="flex">
-        <div className="bg-grey h-32 w-32">Logo</div>
+        <Logo />
         <div className="flex-grow bg-grey ml-2">Banner ad image</div>
       </div>
       <div className="flex my-2 flex-grow">
