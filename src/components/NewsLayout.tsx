@@ -48,17 +48,17 @@ export default function DefaultLayout(props: Props) {
         <Ticker
           pxPerSecond={150}
           items={['Global Headlines:', lipsum]}
-          className="bg-shade text-yellow text-xl font-bold w-screen"
+          className="bg-shade text-yellow text-xl font-bold tracking-wide w-screen"
         />
         <Ticker
           pxPerSecond={125}
           items={['Entertainment Headlines', lipsum]}
-          className="bg-shade text-yellow text-xl font-bold w-screen"
+          className="bg-shade text-yellow text-xl font-bold tracking-wide w-screen"
         />
         <Ticker
           pxPerSecond={100}
           items={['Sports Headlines', lipsum]}
-          className="bg-shade text-yellow text-xl font-bold w-screen"
+          className="bg-shade text-yellow text-xl font-bold tracking-wide w-screen"
         />
       </div>
     </div>
