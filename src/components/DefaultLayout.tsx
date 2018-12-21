@@ -16,17 +16,18 @@ export default function DefaultLayout(props: Props) {
     <div
       {...props}
       className=" bg-blue-darker h-screen flex flex-col justify-between p-4 overflow-x-hidden"
+      style={{ width: 1280, height: 720 }}
     >
       <div className="flex">
-        <Logo />
-        <div className="flex flex-grow">
-          <div className="flex-grow bg-grey ml-2">Jokes </div>
-          <div className="flex-grow bg-grey ml-2">Quotes </div>
-          <div className="flex-grow bg-grey ml-2">Scores </div>
-        </div>
+        <Logo style={{ height: '50px', width: '200px' }} />
+        <div className="flex-grow bg-grey ml-2 mr-2">Jokes </div>
+        <Logo style={{ height: '50px', width: '200px' }} />
       </div>
       <div className="flex my-2 flex-grow">
-        <div className="flex flex-col w-64 flex-no-shrink">
+        <div className="flex flex-col w-2/5 flex-no-shrink">
+          <div className="bg-grey mb-2" style={{ flexGrow: 4 }}>
+            Image Ads
+          </div>
           <div className="bg-grey" style={{ flexGrow: 3 }}>
             Cycling Widgets
             <ul>
@@ -35,19 +36,15 @@ export default function DefaultLayout(props: Props) {
               <li>Stocks</li>
             </ul>
           </div>
-          <div className="bg-grey mt-2" style={{ flexGrow: 4 }}>
-            Image Ads
-          </div>
         </div>
         <div className="flex flex-col flex-shrink">
-          <div className="flex">
+          <div className="flex flex-col">
             <VideoPlayer videos={videos1} className="ml-2" />
-            <VideoPlayer videos={videos2} className="ml-2" />
-          </div>
-          <div className="flex flex-grow mt-2">
-            <div className="bg-grey flex-grow ml-2">Local Events</div>
-            <div className="bg-grey flex-grow ml-2">Deals</div>
-            <div className="bg-grey flex-grow ml-2">Night out</div>
+            <div className="flex flex-grow mt-2">
+              <div className="bg-grey flex-grow ml-2">Local Events</div>
+              <div className="bg-grey flex-grow ml-2">Deals</div>
+              <div className="bg-grey flex-grow ml-2">Night out</div>
+            </div>
           </div>
         </div>
       </div>
