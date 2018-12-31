@@ -1,5 +1,10 @@
 @tailwind preflight;
 @tailwind components;
+
+.center-xy {
+  @apply flex justify-center items-center;
+}
+
 @tailwind utilities;
 
 body {
