@@ -1,0 +1,83 @@
+.DefaultLayout {
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 50px 568px 102px;
+  grid-template-areas:
+    'header'
+    'center'
+    'footer';
+}
+
+.DefaultLayout__header {
+  grid-area: header;
+
+  display: grid;
+  grid-template-columns: 200px auto 200px;
+  grid-template-rows: auto;
+  grid-template-areas: 'sponsor1 banner sponsor2';
+}
+
+.DefaultLayout__center {
+  grid-area: center;
+
+  display: grid;
+  grid-template-columns: auto 800px;
+  grid-template-rows: auto;
+  grid-template-areas: 'sidebar video-area';
+}
+
+.DefaultLayout__footer {
+  grid-area: footer;
+
+  display: grid;
+  grid-template-columns: 102px auto;
+  grid-template-rows: auto;
+  grid-template-areas: 'countdown tickers';
+}
+
+.DefaultLayout__logo {
+  grid-area: logo;
+}
+
+.DefaultLayout__banner {
+  grid-area: banner;
+}
+
+.DefaultLayout__sponsor {
+  grid-area: sponsor;
+}
+
+.DefaultLayout__sidebar {
+  grid-area: sidebar;
+
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 317px auto;
+  grid-template-areas:
+    'main-ad'
+    'widgets';
+}
+
+.DefaultLayout__video-area {
+  grid-area: video-area;
+}
+
+.DefaultLayout__main-ad {
+  grid-area: main-ad;
+}
+
+.DefaultLayout__widgets {
+  grid-area: widgets;
+}
+
+.DefaultLayout__countdown {
+  grid-area: countdown;
+}
+
+.DefaultLayout__tickers {
+  grid-area: tickers;
+}
