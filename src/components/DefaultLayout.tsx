@@ -33,14 +33,14 @@ export default function DefaultLayout(props: Props) {
       className=" bg-blue-darker h-screen flex flex-col justify-between overflow-x-hidden"
       style={{ width: 1280, height: 720 }}
     >
-      <div className="flex">
-        <Logo style={{ height: '50px', width: '200px' }} />
+      <div className="flex flex-no-shrink" style={{ height: '50px' }}>
+        <Logo style={{ width: '200px' }} />
         <div className="flex-grow bg-blue-light flex justify-center items-center">
           Banner
         </div>
         <div
           className="bg-red  flex justify-center items-center"
-          style={{ height: '50px', width: '200px' }}
+          style={{ width: '200px' }}
         >
           Core Sponsor
         </div>
@@ -65,12 +65,22 @@ export default function DefaultLayout(props: Props) {
             </ul>
           </div>
         </div>
-        <div className="flex flex-col flex-shrink">
-          <div className="flex flex-col flex-grow">
+        <div className="flex flex-col flex-grow overflow-hidden">
+          <AspectRatio ratio="16:9">
             <VideoPlayer videos={videos1} className="" />
-            <div className="flex flex-grow justify-center items-center bg-green">
-              coming up
-            </div>
+          </AspectRatio>
+          <div className="bg-green flex-grow">
+            <div>coming up</div>
+            <ol>
+              <li>
+                <div>Next</div>
+                <div>len: 12s</div>
+              </li>
+              <li className="hidden">
+                <div>On Deck</div>
+                <div>len: 12s</div>
+              </li>
+            </ol>
           </div>
         </div>
       </div>
