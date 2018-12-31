@@ -59,7 +59,7 @@ export default function DefaultLayout(props: Props) {
           </div>
         </div>
       </div>
-      <div className="-ml-4">
+      <div>
         <Ticker
           pxPerSecond={100}
           items={['Global Headlines:', lipsum]}
