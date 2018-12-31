@@ -23,6 +23,7 @@
 
 .DefaultLayout__center {
   grid-area: center;
+  overflow: hidden;
 
   display: grid;
   grid-template-columns: auto 800px;

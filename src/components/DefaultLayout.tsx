@@ -59,15 +59,23 @@ export default function DefaultLayout(props: Props) {
           <AspectRatio ratio="16:9">
             <VideoPlayer videos={videos1} className="" />
           </AspectRatio>
-          <div className="bg-green flex-grow">
-            <div>coming up</div>
-            <ol>
+          <div className="bg-green flex-grow flex">
+            <div className="flex-none">coming up</div>
+            <ol className="flex-grow">
               <li>
                 <div>Next</div>
                 <div>len: 12s</div>
               </li>
-              <li className="hidden">
+              <li>
                 <div>On Deck</div>
+                <div>len: 12s</div>
+              </li>
+              <li>
+                <div>In the Hole</div>
+                <div>len: 12s</div>
+              </li>
+              <li>
+                <div>Item 4</div>
                 <div>len: 12s</div>
               </li>
             </ol>
