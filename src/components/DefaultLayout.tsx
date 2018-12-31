@@ -30,12 +30,18 @@ export default function DefaultLayout(props: Props) {
           Core Sponsor
         </div>
       </div>
-      <div className="flex my-2 flex-grow">
-        <div className="flex flex-col w-2/5 flex-no-shrink">
-          <div className="bg-grey mb-2" style={{ flexGrow: 4 }}>
-            Image Ads
+      <div className="flex flex-grow">
+        <div
+          className="flex flex-col flex-no-shrink flex-no-grow"
+          style={{ flexBasis: '380px' }}
+        >
+          <div
+            className="bg-grey flex-no-shrink flex-no-grow bg-red flex justify-center items-center"
+            style={{ flexBasis: '317px' }}
+          >
+            Ad Element
           </div>
-          <div className="bg-grey" style={{ flexGrow: 3 }}>
+          <div className="bg-grey flex-grow flex justify-center items-center">
             Cycling Widgets
             <ul>
               <li>Weather</li>
@@ -45,19 +51,17 @@ export default function DefaultLayout(props: Props) {
           </div>
         </div>
         <div className="flex flex-col flex-shrink">
-          <div className="flex flex-col">
-            <VideoPlayer videos={videos1} className="ml-2" />
-            <div className="flex flex-grow mt-2">
-              <div className="bg-grey flex-grow ml-2">Local Events</div>
-              <div className="bg-grey flex-grow ml-2">Deals</div>
-              <div className="bg-grey flex-grow ml-2">Night out</div>
+          <div className="flex flex-col flex-grow">
+            <VideoPlayer videos={videos1} className="" />
+            <div className="flex flex-grow justify-center items-center bg-green">
+              coming up
             </div>
           </div>
         </div>
       </div>
       <div className="-ml-4">
         <Ticker
-          pxPerSecond={150}
+          pxPerSecond={100}
           items={['Global Headlines:', lipsum]}
           className="bg-shade text-yellow text-xl font-bold w-screen"
         />
@@ -67,7 +71,7 @@ export default function DefaultLayout(props: Props) {
           className="bg-shade text-yellow text-xl font-bold w-screen"
         />
         <Ticker
-          pxPerSecond={100}
+          pxPerSecond={150}
           items={['Sports Headlines', lipsum]}
           className="bg-shade text-yellow text-xl font-bold w-screen"
         />
