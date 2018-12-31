@@ -6,12 +6,13 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 export default function Logo(props: Props) {
   return (
     <div
+      {...props}
       className={mergeClasses(
-        'bg-grey h-32 w-32 flex justify-center items-center',
+        'bg-grey flex justify-center items-center',
         props,
       )}
     >
-      logo
+      Frixxer Logo
     </div>
   );
 }

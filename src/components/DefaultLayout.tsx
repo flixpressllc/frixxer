@@ -15,13 +15,20 @@ export default function DefaultLayout(props: Props) {
   return (
     <div
       {...props}
-      className=" bg-blue-darker h-screen flex flex-col justify-between p-4 overflow-x-hidden"
+      className=" bg-blue-darker h-screen flex flex-col justify-between overflow-x-hidden"
       style={{ width: 1280, height: 720 }}
     >
       <div className="flex">
         <Logo style={{ height: '50px', width: '200px' }} />
-        <div className="flex-grow bg-grey ml-2 mr-2">Jokes </div>
-        <Logo style={{ height: '50px', width: '200px' }} />
+        <div className="flex-grow bg-blue-light flex justify-center items-center">
+          Banner
+        </div>
+        <div
+          className="bg-red  flex justify-center items-center"
+          style={{ height: '50px', width: '200px' }}
+        >
+          Core Sponsor
+        </div>
       </div>
       <div className="flex my-2 flex-grow">
         <div className="flex flex-col w-2/5 flex-no-shrink">
