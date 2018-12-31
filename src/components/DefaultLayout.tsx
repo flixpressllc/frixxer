@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import VideoPlayer from './VideoPlayer';
 import { useVideoFeed } from '../utils/dev-utils';
 import Ticker from './Ticker';
 import Logo from './Logo';
+import AspectRatio from './AspectRatio';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -11,6 +12,20 @@ export default function DefaultLayout(props: Props) {
   const [videos2] = useVideoFeed();
   const lipsum =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+  const [countdown, setCountdown] = useState(30);
+  useEffect(
+    () => {
+      const timeoutNumber = setTimeout(() => {
+        const newTime = countdown - 1 === -1 ? 30 : countdown - 1;
+        setCountdown(newTime);
+      }, 1000);
+      return () => {
+        clearTimeout(timeoutNumber);
+      };
+    },
+    [countdown],
+  );
 
   return (
     <div
@@ -59,22 +74,33 @@ export default function DefaultLayout(props: Props) {
           </div>
         </div>
       </div>
-      <div style={{ fontSize: '17px' }}>
-        <Ticker
-          pxPerSecond={100}
-          items={['Global Headlines:', lipsum]}
-          className="bg-shade text-yellow font-bold w-screen"
-        />
-        <Ticker
-          pxPerSecond={125}
-          items={['Entertainment Headlines', lipsum]}
-          className="bg-shade text-yellow font-bold w-screen"
-        />
-        <Ticker
-          pxPerSecond={150}
-          items={['Sports Headlines', lipsum]}
-          className="bg-shade text-yellow font-bold w-screen"
-        />
+      <div className="flex">
+        <AspectRatio
+          ratio="1:1"
+          style={{ flexBasis: '102px' }}
+          className="flex-no-shrink"
+        >
+          <div className="h-full w-full flex justify-center items-center text-white text-3xl">
+            {countdown}
+          </div>
+        </AspectRatio>
+        <div style={{ fontSize: '17px' }} className="flex-initial">
+          <Ticker
+            pxPerSecond={100}
+            items={['Global Headlines:', lipsum]}
+            className="bg-shade text-yellow font-bold w-screen"
+          />
+          <Ticker
+            pxPerSecond={125}
+            items={['Entertainment Headlines', lipsum]}
+            className="bg-shade text-yellow font-bold w-screen"
+          />
+          <Ticker
+            pxPerSecond={150}
+            items={['Sports Headlines', lipsum]}
+            className="bg-shade text-yellow font-bold w-screen"
+          />
+        </div>
       </div>
     </div>
   );
