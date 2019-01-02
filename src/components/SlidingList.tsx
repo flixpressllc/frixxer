@@ -18,6 +18,10 @@ const getItemShadingB = (i: number): string => {
   return i % 2 ? '' : 'bg-shade-light';
 };
 
+function willLeave() {
+  return { height: spring(0) };
+}
+
 export default function SlidingList(props: Props) {
   const [list, setList] = useState(props.items);
   const [previousList, setPreviousList] = useState([] as Item[]);
@@ -44,10 +48,6 @@ export default function SlidingList(props: Props) {
       getItemShading.current === getItemShadingA
         ? getItemShadingB
         : getItemShadingA;
-  }
-
-  function willLeave() {
-    return { height: spring(0) };
   }
 
   const ulProps = removeProps(props, 'items');
