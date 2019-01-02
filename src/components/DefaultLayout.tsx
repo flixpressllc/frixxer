@@ -1,6 +1,6 @@
 import React from 'react';
 import VideoPlayer from './VideoPlayer';
-import { useVideoFeed } from '../utils/dev-utils';
+import { useVideoFeed, useTimedList } from '../utils/dev-utils';
 import Ticker from './Ticker';
 import Logo from './Logo';
 import AspectRatio from './AspectRatio';
@@ -52,7 +52,7 @@ export default function DefaultLayout(props: Props) {
                 Coming <br /> Up
               </div>
               <ol className="p-0 flex-grow">
-                <SlidingList items={videos1} />
+                <SlidingList items={useTimedList(2000)} />
               </ol>
             </div>
           </div>
