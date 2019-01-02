@@ -46,10 +46,6 @@ export default function SlidingList(props: Props) {
         : getItemShadingA;
   }
 
-  function willEnter() {
-    return { height: 0 };
-  }
-
   function willLeave() {
     return { height: spring(0) };
   }
@@ -60,10 +56,9 @@ export default function SlidingList(props: Props) {
     <TransitionMotion
       styles={masterList.map(item => ({
         key: item.id.toString(),
-        style: { height: spring(60, presets.gentle) },
+        style: { height: 60 },
         data: item,
       }))}
-      willEnter={willEnter}
       willLeave={willLeave}
       didLeave={alternateShading}
     >
