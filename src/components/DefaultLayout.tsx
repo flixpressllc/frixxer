@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import VideoPlayer from './VideoPlayer';
 import { useVideoFeed } from '../utils/dev-utils';
 import Ticker from './Ticker';
@@ -6,7 +6,7 @@ import Logo from './Logo';
 import AspectRatio from './AspectRatio';
 import SlidingList from './SlidingList';
 import './DefaultLayout.css';
-import { useMutable } from '../custom-hooks/useMutable';
+import PerpetualCountdown from './PerpetualCountdown';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -14,22 +14,6 @@ export default function DefaultLayout(props: Props) {
   const [videos1] = useVideoFeed();
   const lipsum =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-
-  const [countdown, setCountdown] = useState(30);
-  const r = useMutable({ countdown, setCountdown });
-  useEffect(
-    () => {
-      const timeoutNumber = setInterval(() => {
-        const newTime =
-          r.current.countdown - 1 === 0 ? 30 : r.current.countdown - 1;
-        r.current.setCountdown(newTime);
-      }, 1000);
-      return () => {
-        clearInterval(timeoutNumber);
-      };
-    },
-    ['once'],
-  );
 
   return (
     <div {...props} className="DefaultLayout bg-blue-darker relative">
@@ -96,9 +80,10 @@ export default function DefaultLayout(props: Props) {
           ratio="1:1"
           className="DefaultLayout__countdown absolute pin-b pin-l bg-blue-dark"
         >
-          <div className="h-full w-full center-xy text-white text-xl">
-            {countdown}
-          </div>
+          <PerpetualCountdown
+            className="h-full w-full center-xy text-white text-xl"
+            timeInSeconds={30}
+          />
         </AspectRatio>
       </div>
       <Logo className="DefaultLayout__bug absolute pin-r pin-b" />
