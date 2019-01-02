@@ -32,6 +32,7 @@
     "@types/node": "10.12.12",
     "@types/react": "16.7.13",
     "@types/react-dom": "16.0.11",
+    "@types/react-motion": "0.0.27",
     "happy-helpers": "^1.4.0",
     "husky": "^1.2.0",
     "jest-dom": "^3.0.0",
