@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TransitionMotion, spring, presets } from 'react-motion';
+import { removeProps } from '../utils';
 
 interface Item {
   label: string;
   id: number | string;
 }
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends React.HTMLAttributes<HTMLUListElement> {
   items: Item[];
 }
 
@@ -51,17 +53,39 @@ export default function SlidingList(props: Props) {
     },
     [props.items],
   );
+
+  function willEnter() {
+    return { height: 0 };
+  }
+
+  function willLeave() {
+    return { height: spring(0) };
+  }
+
+  const ulProps = removeProps(props, 'items');
+
   return (
-    <div {...props}>
-      {masterList.map((item, i) => (
-        <li
-          key={item.id}
-          className={`flex text-2xl p-4 ${getItemShading.current(i)}`}
-        >
-          <div className="px-4 flex-grow">{item.label}</div>
-          <div className="px-4">12s</div>
-        </li>
-      ))}
-    </div>
+    <TransitionMotion
+      styles={masterList.map(item => ({
+        key: item.id.toString(),
+        style: { height: spring(60, presets.gentle) },
+        data: item,
+      }))}
+      willEnter={willEnter}
+      willLeave={willLeave}
+    >
+      {styles => (
+        <ul {...ulProps} style={{ listStyle: 'none' }}>
+          {styles.map(({ key, style, data: item }, i) => (
+            <li style={style} key={key}>
+              <div className={`flex text-2xl p-4 ${getItemShading.current(i)}`}>
+                <div className="px-4 flex-grow">{item.label}</div>
+                <div className="px-4">12s</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </TransitionMotion>
   );
 }
