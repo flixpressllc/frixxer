@@ -1,9 +1,15 @@
 import React from 'react';
+import { mergeClasses } from '../utils';
 
-export default function Logo() {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+
+export default function Logo(props: Props) {
   return (
-    <div className="bg-grey h-32 w-32 flex justify-center items-center">
-      logo
+    <div
+      {...props}
+      className={mergeClasses('bg-orange center-xy text-white text-2xl', props)}
+    >
+      Frixxer Logo
     </div>
   );
 }
