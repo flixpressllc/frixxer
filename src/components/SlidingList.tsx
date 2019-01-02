@@ -39,20 +39,12 @@ export default function SlidingList(props: Props) {
   );
 
   const getItemShading = useRef(getItemShadingA);
-  useEffect(
-    () => {
-      if (previousList[0] && list[0] && previousList[0].id === list[0].id) {
-        return;
-      }
-      if (previousList[1] && list[0] && previousList[1].id === list[0].id) {
-        getItemShading.current =
-          getItemShading.current === getItemShadingA
-            ? getItemShadingB
-            : getItemShadingA;
-      }
-    },
-    [props.items],
-  );
+  function alternateShading() {
+    getItemShading.current =
+      getItemShading.current === getItemShadingA
+        ? getItemShadingB
+        : getItemShadingA;
+  }
 
   function willEnter() {
     return { height: 0 };
@@ -73,11 +65,12 @@ export default function SlidingList(props: Props) {
       }))}
       willEnter={willEnter}
       willLeave={willLeave}
+      didLeave={alternateShading}
     >
       {styles => (
         <ul {...ulProps} style={{ listStyle: 'none' }}>
           {styles.map(({ key, style, data: item }, i) => (
-            <li style={style} key={key}>
+            <li style={style} key={key} className="overflow-hidden">
               <div className={`flex text-2xl p-4 ${getItemShading.current(i)}`}>
                 <div className="px-4 flex-grow">{item.label}</div>
                 <div className="px-4">12s</div>
