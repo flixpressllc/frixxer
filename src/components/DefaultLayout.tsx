@@ -59,26 +59,20 @@ export default function DefaultLayout(props: Props) {
           <AspectRatio ratio="16:9">
             <VideoPlayer videos={videos1} className="" />
           </AspectRatio>
-          <div className="bg-green flex-grow flex">
-            <div className="flex-none">coming up</div>
-            <ol className="flex-grow">
-              <li>
-                <div>Next</div>
-                <div>len: 12s</div>
-              </li>
-              <li>
-                <div>On Deck</div>
-                <div>len: 12s</div>
-              </li>
-              <li>
-                <div>In the Hole</div>
-                <div>len: 12s</div>
-              </li>
-              <li>
-                <div>Item 4</div>
-                <div>len: 12s</div>
-              </li>
-            </ol>
+          <div className="bg-green overflow-hidden flex flex-grow">
+            <div className="flex-grow flex">
+              <div className="flex-none bg-green-dark center-xy p-4">
+                Coming Up
+              </div>
+              <ol className="flex-grow">
+                {Array.from(new Array(10)).map((_, i) => (
+                  <li>
+                    <div>Item {i}</div>
+                    <div>len: 12s</div>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </div>
       </div>

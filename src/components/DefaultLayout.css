@@ -65,6 +65,7 @@
 
 .DefaultLayout__video-area {
   grid-area: video-area;
+  height: 568px;
 }
 
 .DefaultLayout__main-ad {
