@@ -31,9 +31,11 @@ export default function DefaultLayout(props: Props) {
   );
 
   return (
-    <div {...props} className="DefaultLayout bg-blue-darker">
+    <div {...props} className="DefaultLayout bg-blue-darker relative">
       <div className="DefaultLayout__header">
-        <Logo className="DefaultLayout__sponsor1" />
+        <div className="DefaultLayout__sponsor1 bg-red center-xy">
+          Core Sponsor
+        </div>
         <div className="DefaultLayout__banner bg-blue-light center-xy">
           Banner
         </div>
@@ -43,7 +45,7 @@ export default function DefaultLayout(props: Props) {
       </div>
       <div className="DefaultLayout__center">
         <div className="DefaultLayout__sidebar flex flex-col">
-          <div className="DefaultLayout__main-ad bg-red center-xy">
+          <div className="DefaultLayout__main-ad bg-yellow-dark center-xy">
             Ad Element
           </div>
           <div className="DefaultLayout__widgets bg-grey center-xy">
@@ -105,6 +107,7 @@ export default function DefaultLayout(props: Props) {
           />
         </div>
       </div>
+      <Logo className="DefaultLayout__bug absolute pin-r pin-b" />
     </div>
   );
 }

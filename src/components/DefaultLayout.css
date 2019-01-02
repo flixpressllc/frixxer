@@ -83,3 +83,8 @@
 .DefaultLayout__tickers {
   grid-area: tickers;
 }
+
+.DefaultLayout__bug {
+  height: 68px;
+  width: 300px;
+}
