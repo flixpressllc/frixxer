@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-type Item = string;
+interface Item {
+  label: string;
+  id: number | string;
+}
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   items: Item[];
@@ -27,12 +30,12 @@ export default function SlidingList(props: Props) {
   );
   return (
     <div {...props}>
-      {masterList.map((name, i) => (
+      {masterList.map((item, i) => (
         <li
-          key={i}
+          key={item.id}
           className={`flex text-2xl p-4 ${i % 2 ? 'bg-shade-light' : ''}`}
         >
-          <div className="px-4 flex-grow">{name}</div>
+          <div className="px-4 flex-grow">{item.label}</div>
           <div className="px-4">12s</div>
         </li>
       ))}

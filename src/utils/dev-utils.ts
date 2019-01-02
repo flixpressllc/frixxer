@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { shuffleClone } from 'happy-helpers';
+import { shuffleClone, clone } from 'happy-helpers';
 
 function addLocation(...vids: string[]): string[] {
   return vids.map(x => `FrixxerVids/${x}.mp4`);
@@ -44,12 +44,16 @@ export function useTimedList(
   intervalTime: number = 1000,
   list: string[] = devVideos,
 ) {
-  const [currentList, setCurrentList] = useState(list.concat([]));
+  const [currentList, setCurrentList] = useState(
+    list.map((name, i) => ({ label: name, id: i })),
+  );
 
   useEffect(
     () => {
       const id = setTimeout(() => {
-        setCurrentList(currentList.concat(currentList[0]).splice(1));
+        const newItem = clone(currentList[0]);
+        newItem.id = currentList[currentList.length - 1].id + 1;
+        setCurrentList(currentList.concat(newItem).splice(1));
       }, intervalTime);
       return () => {
         clearTimeout(id);
