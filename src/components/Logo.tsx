@@ -7,10 +7,7 @@ export default function Logo(props: Props) {
   return (
     <div
       {...props}
-      className={mergeClasses(
-        'bg-grey flex justify-center items-center',
-        props,
-      )}
+      className={mergeClasses('bg-orange center-xy text-white text-2xl', props)}
     >
       Frixxer Logo
     </div>
