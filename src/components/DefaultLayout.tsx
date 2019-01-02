@@ -61,14 +61,19 @@ export default function DefaultLayout(props: Props) {
           </AspectRatio>
           <div className="bg-green overflow-hidden flex flex-grow">
             <div className="flex-grow flex">
-              <div className="flex-none bg-green-dark center-xy p-4">
-                Coming Up
+              <div className="flex-none bg-shade-lighter center-xy p-4 text-center text-2xl">
+                Coming <br /> Up
               </div>
-              <ol className="flex-grow">
-                {Array.from(new Array(10)).map((_, i) => (
-                  <li>
-                    <div>Item {i}</div>
-                    <div>len: 12s</div>
+              <ol className="p-0 flex-grow">
+                {videos1.map((vidName, i) => (
+                  <li
+                    key={i}
+                    className={`flex text-2xl p-4 ${
+                      i % 2 ? 'bg-shade-light' : ''
+                    }`}
+                  >
+                    <div className="px-4 flex-grow">{vidName}</div>
+                    <div className="px-4">12s</div>
                   </li>
                 ))}
               </ol>
