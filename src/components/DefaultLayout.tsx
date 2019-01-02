@@ -4,6 +4,7 @@ import { useVideoFeed } from '../utils/dev-utils';
 import Ticker from './Ticker';
 import Logo from './Logo';
 import AspectRatio from './AspectRatio';
+import SlidingList from './SlidingList';
 import './DefaultLayout.css';
 import { useMutable } from '../custom-hooks/useMutable';
 
@@ -67,17 +68,7 @@ export default function DefaultLayout(props: Props) {
                 Coming <br /> Up
               </div>
               <ol className="p-0 flex-grow">
-                {videos1.map((vidName, i) => (
-                  <li
-                    key={i}
-                    className={`flex text-2xl p-4 ${
-                      i % 2 ? 'bg-shade-light' : ''
-                    }`}
-                  >
-                    <div className="px-4 flex-grow">{vidName}</div>
-                    <div className="px-4">12s</div>
-                  </li>
-                ))}
+                <SlidingList items={videos1} />
               </ol>
             </div>
           </div>
