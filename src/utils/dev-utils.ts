@@ -39,3 +39,24 @@ export function useVideoFeed() {
     React.Dispatch<React.SetStateAction<string[]>>
   ];
 }
+
+export function useTimedList(
+  intervalTime: number = 1000,
+  list: string[] = devVideos,
+) {
+  const [currentList, setCurrentList] = useState(list.concat([]));
+
+  useEffect(
+    () => {
+      const id = setTimeout(() => {
+        setCurrentList(currentList.concat(currentList[0]).splice(1));
+      }, intervalTime);
+      return () => {
+        clearTimeout(id);
+      };
+    },
+    [intervalTime, currentList],
+  );
+
+  return currentList;
+}
