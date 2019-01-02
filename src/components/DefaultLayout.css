@@ -35,9 +35,9 @@
   grid-area: footer;
 
   display: grid;
-  grid-template-columns: 102px auto;
+  grid-template-columns: auto;
   grid-template-rows: auto;
-  grid-template-areas: 'countdown tickers';
+  grid-template-areas: 'tickers';
 }
 
 .DefaultLayout__logo {
@@ -78,6 +78,8 @@
 
 .DefaultLayout__countdown {
   grid-area: countdown;
+  width: 34px;
+  height: 34px;
 }
 
 .DefaultLayout__tickers {

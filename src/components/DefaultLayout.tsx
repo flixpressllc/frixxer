@@ -83,12 +83,7 @@ export default function DefaultLayout(props: Props) {
           </div>
         </div>
       </div>
-      <div className="DefaultLayout__footer flex">
-        <AspectRatio ratio="1:1" className="DefaultLayout__countdown">
-          <div className="h-full w-full center-xy text-white text-3xl">
-            {countdown}
-          </div>
-        </AspectRatio>
+      <div className="DefaultLayout__footer flex relative">
         <div style={{ fontSize: '17px' }} className="DefaultLayout__tickers">
           <Ticker
             pxPerSecond={100}
@@ -106,6 +101,14 @@ export default function DefaultLayout(props: Props) {
             className="bg-shade text-yellow font-bold w-screen"
           />
         </div>
+        <AspectRatio
+          ratio="1:1"
+          className="DefaultLayout__countdown absolute pin-b pin-l bg-blue-dark"
+        >
+          <div className="h-full w-full center-xy text-white text-xl">
+            {countdown}
+          </div>
+        </AspectRatio>
       </div>
       <Logo className="DefaultLayout__bug absolute pin-r pin-b" />
     </div>
