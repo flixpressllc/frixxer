@@ -1,18 +1,20 @@
 import { configureStore, createReducer } from 'redux-starter-kit';
 import { labeledDevVideos } from '../utils/dev-utils';
+import { Store } from 'redux';
 
-const video = createReducer(
-  { queue: labeledDevVideos },
+const initialVideoState = { queue: labeledDevVideos };
+
+const video = createReducer(initialVideoState, {
+  ADVANCE_VIDEO_QUEUE: state => {
+    // use of immer in redux-starter-kit allows mutation
+    state.queue.shift();
+  },
+});
+
+export const store: Store<{ video: typeof initialVideoState }> = configureStore(
   {
-    ADVANCE_VIDEO_QUEUE: state => {
-      // use of immer in redux-starter-kit allows mutation
-      state.queue.shift();
+    reducer: {
+      video,
     },
   },
 );
-
-export const store = configureStore({
-  reducer: {
-    video,
-  },
-});

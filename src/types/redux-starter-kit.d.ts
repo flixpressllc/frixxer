@@ -8,15 +8,13 @@ declare module 'redux-starter-kit' {
     actionsMap: {
       [s: string]: (state: T, action: Redux.AnyAction) => T | void;
     },
-  ): Redux.Reducer;
+  ): Redux.Reducer<T>;
 
-  const configureStore: (
-    input: {
-      reducer: { [s: string]: Redux.Reducer } | Redux.Reducer;
-      middleware?: Array<AnyFn>;
-      devTools?: boolean;
-      preloadedState?: any;
-      enhancer?: any;
-    },
-  ) => Redux.Store;
+  function configureStore(input: {
+    reducer: { [s: string]: Redux.Reducer } | Redux.Reducer;
+    middleware?: Array<AnyFn>;
+    devTools?: boolean;
+    preloadedState?: any;
+    enhancer?: any;
+  }): Redux.Store;
 }
