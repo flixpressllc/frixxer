@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TransitionMotion, spring, presets } from 'react-motion';
+import { TransitionMotion, spring } from 'react-motion';
 import { removeProps } from '../utils';
 
 interface Item {
@@ -19,7 +19,7 @@ const getItemShadingB = (i: number): string => {
 };
 
 function willLeave() {
-  return { height: spring(0) };
+  return { y: spring(-100) };
 }
 
 export default function SlidingList(props: Props) {
@@ -56,7 +56,7 @@ export default function SlidingList(props: Props) {
     <TransitionMotion
       styles={masterList.map(item => ({
         key: item.id.toString(),
-        style: { height: 60 },
+        style: { y: 0 },
         data: item,
       }))}
       willLeave={willLeave}
@@ -65,7 +65,11 @@ export default function SlidingList(props: Props) {
       {styles => (
         <ul {...ulProps} style={{ listStyle: 'none' }}>
           {styles.map(({ key, style, data: item }, i) => (
-            <li style={style} key={key} className="overflow-hidden">
+            <li
+              style={{ transform: `translate3d(0, ${style.y}%, 0)` }}
+              key={key}
+              className="overflow-hidden"
+            >
               <div className={`flex text-2xl p-4 ${getItemShading.current(i)}`}>
                 <div className="px-4 flex-grow">{item.label}</div>
                 <div className="px-4">12s</div>
