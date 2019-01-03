@@ -1,6 +1,5 @@
 import React from 'react';
 import VideoPlayer from './VideoPlayer';
-import { useVideoFeed, useTimedList } from '../utils/dev-utils';
 import Ticker from './Ticker';
 import Logo from './Logo';
 import AspectRatio from './AspectRatio';
@@ -11,7 +10,6 @@ import PerpetualCountdown from './PerpetualCountdown';
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export default function DefaultLayout(props: Props) {
-  const [videos1] = useVideoFeed();
   const lipsum =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
@@ -44,7 +42,7 @@ export default function DefaultLayout(props: Props) {
         </div>
         <div className="DefaultLayout__video-area flex flex-col">
           <AspectRatio ratio="16:9">
-            <VideoPlayer videos={videos1} className="" />
+            <VideoPlayer />
           </AspectRatio>
           <div className="bg-green overflow-hidden flex flex-grow">
             <div className="flex-grow flex">

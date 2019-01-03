@@ -23,6 +23,7 @@ export const devVideos = [
 
 export const labeledDevVideos = devVideos.map((name, i) => ({
   label: name,
+  url: addLocation(name),
   id: i,
 }));
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { TransitionMotion, spring, StaggeredMotion } from 'react-motion';
 import { removeProps } from '../utils';
 import { connect, MapDispatchToPropsFunction } from 'react-redux';
@@ -10,7 +10,7 @@ interface Item {
 }
 
 interface Props extends React.HTMLAttributes<HTMLUListElement> {
-  items: Item[];
+  list: Item[];
   advance: () => any;
 }
 
@@ -26,33 +26,7 @@ function willLeave() {
 }
 
 function SlidingList(props: Props) {
-  const [list, setList] = useState(props.items);
-  const [previousList, setPreviousList] = useState([] as Item[]);
-  function combineLists(prev: Item[], next: Item[]): Item[] {
-    return prev[0] ? [prev[0]].concat(next) : next;
-  }
-  const [masterList, setMasterList] = useState(
-    combineLists(previousList, list),
-  );
-  useEffect(
-    () => {
-      if (list !== props.items) {
-        setPreviousList(list);
-        setList(props.items);
-        setMasterList(combineLists(list, props.items));
-      }
-    },
-    [props.items],
-  );
-
-  // Proof of concept: advance store manually
-  useEffect(
-    () => {
-      const id = setInterval(props.advance, 2000);
-      return () => clearInterval(id);
-    },
-    ['once'],
-  );
+  const { list } = props;
 
   const getItemShading = useRef(getItemShadingA);
   function alternateShading() {
@@ -62,11 +36,11 @@ function SlidingList(props: Props) {
         : getItemShadingA;
   }
 
-  const ulProps = removeProps(props, 'items', 'advance');
+  const ulProps = removeProps(props, 'list', 'advance');
 
   return (
     <TransitionMotion
-      styles={masterList.map(item => ({
+      styles={list.map(item => ({
         key: item.id.toString(),
         style: { y: 0 },
         data: item,
@@ -79,6 +53,9 @@ function SlidingList(props: Props) {
           defaultStyles={transitionMotionStyles.map(({ style }) => style)}
           styles={lastStyles =>
             lastStyles!.map((_, i) => {
+              if (!transitionMotionStyles[0]) {
+                return {};
+              }
               if (transitionMotionStyles[0].style.y === 0) {
                 return { y: 0 };
               }
@@ -120,7 +97,7 @@ function SlidingList(props: Props) {
 }
 
 const mapStateToProps = (state: StoreData) => {
-  return { items: state.video.queue };
+  return { list: state.video.queue.slice(1) };
 };
 const mapDispatchToProps: MapDispatchToPropsFunction<any, any> = dispatch => ({
   advance: () => dispatch({ type: 'ADVANCE_VIDEO_QUEUE' }),
