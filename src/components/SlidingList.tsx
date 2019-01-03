@@ -10,6 +10,7 @@ interface Item {
 
 interface Props extends React.HTMLAttributes<HTMLUListElement> {
   items: Item[];
+  advance: () => any;
 }
 
 const getItemShadingA = (i: number): string => {
@@ -43,6 +44,15 @@ function SlidingList(props: Props) {
     [props.items],
   );
 
+  // Proof of concept: advance store manually
+  useEffect(
+    () => {
+      const id = setInterval(props.advance, 2000);
+      return () => clearInterval(id);
+    },
+    ['once'],
+  );
+
   const getItemShading = useRef(getItemShadingA);
   function alternateShading() {
     getItemShading.current =
@@ -51,7 +61,7 @@ function SlidingList(props: Props) {
         : getItemShadingA;
   }
 
-  const ulProps = removeProps(props, 'items');
+  const ulProps = removeProps(props, 'items', 'advance');
 
   return (
     <TransitionMotion
@@ -112,7 +122,7 @@ const mapStateToProps = (state: any) => {
   return { items: state.video.queue };
 };
 const mapDispatchToProps: MapDispatchToPropsFunction<any, any> = dispatch => ({
-  // advance: () => dispatch({ type: 'ADVANCE_VIDEO_QUEUE' }),
+  advance: () => dispatch({ type: 'ADVANCE_VIDEO_QUEUE' }),
 });
 
 export default connect(
