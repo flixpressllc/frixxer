@@ -51,10 +51,7 @@ export default function DefaultLayout(props: Props) {
               <div className="flex-none bg-shade-lighter center-xy p-4 text-center text-2xl">
                 Coming <br /> Up
               </div>
-              <SlidingList
-                items={useTimedList(2000)}
-                className="p-0 flex-grow"
-              />
+              <SlidingList className="p-0 flex-grow" />
             </div>
           </div>
         </div>

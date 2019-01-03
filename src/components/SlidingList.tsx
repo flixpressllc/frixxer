@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TransitionMotion, spring, StaggeredMotion } from 'react-motion';
 import { removeProps } from '../utils';
+import { connect, MapDispatchToPropsFunction } from 'react-redux';
 
 interface Item {
   label: string;
@@ -22,7 +23,7 @@ function willLeave() {
   return { y: spring(-100) };
 }
 
-export default function SlidingList(props: Props) {
+function SlidingList(props: Props) {
   const [list, setList] = useState(props.items);
   const [previousList, setPreviousList] = useState([] as Item[]);
   function combineLists(prev: Item[], next: Item[]): Item[] {
@@ -106,3 +107,15 @@ export default function SlidingList(props: Props) {
     </TransitionMotion>
   );
 }
+
+const mapStateToProps = (state: any) => {
+  return { items: state.video.queue };
+};
+const mapDispatchToProps: MapDispatchToPropsFunction<any, any> = dispatch => ({
+  // advance: () => dispatch({ type: 'ADVANCE_VIDEO_QUEUE' }),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SlidingList);
