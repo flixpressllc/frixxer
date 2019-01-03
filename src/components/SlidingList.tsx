@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { TransitionMotion, spring, StaggeredMotion } from 'react-motion';
 import { removeProps } from '../utils';
 import { connect, MapDispatchToPropsFunction } from 'react-redux';
+import { StoreData } from '../redux/store';
 
 interface Item {
   label: string;
@@ -118,7 +119,7 @@ function SlidingList(props: Props) {
   );
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StoreData) => {
   return { items: state.video.queue };
 };
 const mapDispatchToProps: MapDispatchToPropsFunction<any, any> = dispatch => ({

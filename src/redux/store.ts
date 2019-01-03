@@ -18,3 +18,5 @@ export const store: Store<{ video: typeof initialVideoState }> = configureStore(
     },
   },
 );
+
+export type StoreData = ReturnType<typeof store['getState']>;
