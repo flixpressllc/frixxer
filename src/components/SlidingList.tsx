@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TransitionMotion, spring } from 'react-motion';
+import { TransitionMotion, spring, StaggeredMotion } from 'react-motion';
 import { removeProps } from '../utils';
 
 interface Item {
@@ -62,21 +62,46 @@ export default function SlidingList(props: Props) {
       willLeave={willLeave}
       didLeave={alternateShading}
     >
-      {styles => (
-        <ul {...ulProps} style={{ listStyle: 'none' }}>
-          {styles.map(({ key, style, data: item }, i) => (
-            <li
-              style={{ transform: `translate3d(0, ${style.y}%, 0)` }}
-              key={key}
-              className="overflow-hidden"
-            >
-              <div className={`flex text-2xl p-4 ${getItemShading.current(i)}`}>
-                <div className="px-4 flex-grow">{item.label}</div>
-                <div className="px-4">12s</div>
-              </div>
-            </li>
-          ))}
-        </ul>
+      {transitionMotionStyles => (
+        <StaggeredMotion
+          defaultStyles={transitionMotionStyles.map(({ style }) => style)}
+          styles={lastStyles =>
+            lastStyles!.map((_, i) => {
+              if (transitionMotionStyles[0].style.y === 0) {
+                return { y: 0 };
+              }
+              if (i === 0) {
+                return transitionMotionStyles[0].style;
+              }
+              return {
+                y: spring(lastStyles![i - 1].y),
+              };
+            })
+          }
+        >
+          {(staggeredMotionStyles: any) => (
+            <ul {...ulProps} style={{ listStyle: 'none' }}>
+              {transitionMotionStyles.map(({ key, style, data: item }, i) => (
+                <li
+                  style={{
+                    transform: `translate3d(0, ${
+                      (staggeredMotionStyles[i] || style).y
+                    }%, 0)`,
+                  }}
+                  key={key}
+                  className="overflow-hidden"
+                >
+                  <div
+                    className={`flex text-2xl p-4 ${getItemShading.current(i)}`}
+                  >
+                    <div className="px-4 flex-grow">{item.label}</div>
+                    <div className="px-4">12s</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </StaggeredMotion>
       )}
     </TransitionMotion>
   );
