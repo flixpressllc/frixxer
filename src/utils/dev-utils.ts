@@ -5,7 +5,7 @@ function addLocation(...vids: string[]): string[] {
   return vids.map(x => `FrixxerVids/${x}.mp4`);
 }
 
-const devVideos = [
+export const devVideos = [
   'BrainBlitz',
   'LyingGame',
   'NeedtoKnow',
@@ -20,6 +20,11 @@ const devVideos = [
   'WhoSaidIt',
   'XsOs',
 ];
+
+export const labeledDevVideos = devVideos.map((name, i) => ({
+  label: name,
+  id: i,
+}));
 
 export function useVideoFeed() {
   const allVideos = addLocation(...shuffleClone(devVideos));
@@ -44,9 +49,7 @@ export function useTimedList(
   intervalTime: number = 1000,
   list: string[] = devVideos,
 ) {
-  const [currentList, setCurrentList] = useState(
-    list.map((name, i) => ({ label: name, id: i })),
-  );
+  const [currentList, setCurrentList] = useState(labeledDevVideos);
 
   useEffect(
     () => {
