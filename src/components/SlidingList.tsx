@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TransitionMotion, spring, StaggeredMotion } from 'react-motion';
+import { removeProps } from '../utils';
 
 interface Item {
   label: string;
   id: number | string;
 }
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends React.HTMLAttributes<HTMLUListElement> {
   items: Item[];
 }
 
@@ -15,6 +17,10 @@ const getItemShadingA = (i: number): string => {
 const getItemShadingB = (i: number): string => {
   return i % 2 ? '' : 'bg-shade-light';
 };
+
+function willLeave() {
+  return { y: spring(-100) };
+}
 
 export default function SlidingList(props: Props) {
   const [list, setList] = useState(props.items);
@@ -37,31 +43,66 @@ export default function SlidingList(props: Props) {
   );
 
   const getItemShading = useRef(getItemShadingA);
-  useEffect(
-    () => {
-      if (previousList[0] && list[0] && previousList[0].id === list[0].id) {
-        return;
-      }
-      if (previousList[1] && list[0] && previousList[1].id === list[0].id) {
-        getItemShading.current =
-          getItemShading.current === getItemShadingA
-            ? getItemShadingB
-            : getItemShadingA;
-      }
-    },
-    [props.items],
-  );
+  function alternateShading() {
+    getItemShading.current =
+      getItemShading.current === getItemShadingA
+        ? getItemShadingB
+        : getItemShadingA;
+  }
+
+  const ulProps = removeProps(props, 'items');
+
   return (
-    <div {...props}>
-      {masterList.map((item, i) => (
-        <li
-          key={item.id}
-          className={`flex text-2xl p-4 ${getItemShading.current(i)}`}
+    <TransitionMotion
+      styles={masterList.map(item => ({
+        key: item.id.toString(),
+        style: { y: 0 },
+        data: item,
+      }))}
+      willLeave={willLeave}
+      didLeave={alternateShading}
+    >
+      {transitionMotionStyles => (
+        <StaggeredMotion
+          defaultStyles={transitionMotionStyles.map(({ style }) => style)}
+          styles={lastStyles =>
+            lastStyles!.map((_, i) => {
+              if (transitionMotionStyles[0].style.y === 0) {
+                return { y: 0 };
+              }
+              if (i === 0) {
+                return transitionMotionStyles[0].style;
+              }
+              return {
+                y: spring(lastStyles![i - 1].y),
+              };
+            })
+          }
         >
-          <div className="px-4 flex-grow">{item.label}</div>
-          <div className="px-4">12s</div>
-        </li>
-      ))}
-    </div>
+          {(staggeredMotionStyles: any) => (
+            <ul {...ulProps} style={{ listStyle: 'none' }}>
+              {transitionMotionStyles.map(({ key, style, data: item }, i) => (
+                <li
+                  style={{
+                    transform: `translate3d(0, ${
+                      (staggeredMotionStyles[i] || style).y
+                    }%, 0)`,
+                  }}
+                  key={key}
+                  className="overflow-hidden"
+                >
+                  <div
+                    className={`flex text-2xl p-4 ${getItemShading.current(i)}`}
+                  >
+                    <div className="px-4 flex-grow">{item.label}</div>
+                    <div className="px-4">12s</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </StaggeredMotion>
+      )}
+    </TransitionMotion>
   );
 }
