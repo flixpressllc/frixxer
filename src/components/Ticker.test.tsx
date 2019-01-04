@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Ticker from './Ticker';
+import { UnconnectedTicker as Ticker } from './Ticker';
 import { render, wait } from 'react-testing-library';
 import { resizeWindow } from '../testing/utils';
 

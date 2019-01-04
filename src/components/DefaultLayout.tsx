@@ -58,17 +58,17 @@ export default function DefaultLayout(props: Props) {
         <div style={{ fontSize: '17px' }} className="DefaultLayout__tickers">
           <Ticker
             pxPerSecond={100}
-            items={['Global Headlines:', lipsum]}
+            tickerId={1}
             className="bg-shade text-yellow font-bold w-screen"
           />
           <Ticker
             pxPerSecond={125}
-            items={['Entertainment Headlines', lipsum]}
+            tickerId={2}
             className="bg-shade text-yellow font-bold w-screen"
           />
           <Ticker
             pxPerSecond={150}
-            items={['Sports Headlines', lipsum]}
+            tickerId={3}
             className="bg-shade text-yellow font-bold w-screen"
           />
         </div>
