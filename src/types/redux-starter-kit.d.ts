@@ -17,4 +17,8 @@ declare module 'redux-starter-kit' {
     preloadedState?: any;
     enhancer?: any;
   }): Redux.Store;
+
+  function createAction<N extends string>(
+    name: N,
+  ): (<T extends any>(payload?: T) => { type: N; payload?: T }) & string;
 }

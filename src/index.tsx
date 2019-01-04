@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { loadVideos } from './redux/actions/video';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,3 +18,7 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+if (process.env.NODE_ENV === 'development') {
+  store.dispatch(loadVideos());
+}

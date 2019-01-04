@@ -1,13 +1,18 @@
 import { configureStore, createReducer } from 'redux-starter-kit';
-import { labeledDevVideos } from '../utils/dev-utils';
 import { Store } from 'redux';
+import { advanceQueue, replaceVideos } from './actions/video';
 
-const initialVideoState = { queue: labeledDevVideos };
+const initialVideoState: {
+  queue: Array<{ id: number; url: string; label: string }>;
+} = { queue: [] };
 
 const video = createReducer(initialVideoState, {
-  ADVANCE_VIDEO_QUEUE: state => {
+  [advanceQueue]: state => {
     // use of immer in redux-starter-kit allows mutation
     state.queue.shift();
+  },
+  [replaceVideos]: (state, action) => {
+    state.queue = action.payload;
   },
 });
 

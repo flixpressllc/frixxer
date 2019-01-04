@@ -18,8 +18,77 @@ const devVideos = [
   { label: "X's and O's", url: 'XsOs' },
 ];
 
-export const labeledDevVideos = devVideos.map(({ label, url }, i) => ({
+const labeledDevVideos = devVideos.map(({ label, url }, i) => ({
   label,
   url: addLocation(url),
   id: i,
 }));
+
+function getRandomArbitrary(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const invalidIds = [
+  15,
+  16,
+  21,
+  22,
+  24,
+  34,
+  46,
+  57,
+  58,
+  72,
+  74,
+  75,
+  80,
+  97,
+  99,
+  100,
+  101,
+  103,
+  104,
+  107,
+  109,
+  110,
+  145,
+  155,
+];
+
+function getRandomIgnoring(min: number, max: number, ignore: number[]) {
+  const rand = getRandomArbitrary(min, max);
+  if (ignore.indexOf(rand) > -1) {
+    // @ts-ignore
+    return getRandomIgnoring(...arguments);
+  } else {
+    return rand;
+  }
+}
+
+function getRandomVideoId() {
+  return getRandomIgnoring(1, 164, invalidIds);
+}
+
+function getVideo(): typeof labeledDevVideos[0] {
+  const id = getRandomVideoId();
+  const padded = id > 9 ? id.toString() : `0${id}`;
+  const possibleUrl = `https://mediarobotvideo.s3.amazonaws.com/Template${padded}.mp4`;
+
+  return {
+    label: `Template ${id}`,
+    id,
+    url: possibleUrl,
+  };
+}
+
+export function fetchVideoData(
+  delay: number = 2000,
+  num: number = 5,
+): Promise<typeof labeledDevVideos> {
+  const vids = Array.from(new Array(num)).map(() => getVideo());
+  return new Promise(r => {
+    setTimeout(() => r(vids), delay);
+  });
+}
