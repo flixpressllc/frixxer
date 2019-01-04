@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { TransitionMotion, spring, StaggeredMotion } from 'react-motion';
-import { removeProps } from '../utils';
-import { connect, MapDispatchToPropsFunction } from 'react-redux';
+import { removeProps, nullDispatch } from '../utils';
+import { connect } from 'react-redux';
 import { StoreData } from '../redux/store';
 
 interface Item {
@@ -11,7 +11,6 @@ interface Item {
 
 interface Props extends React.HTMLAttributes<HTMLUListElement> {
   list: Item[];
-  advance: () => any;
 }
 
 const getItemShadingA = (i: number): string => {
@@ -36,7 +35,7 @@ function SlidingList(props: Props) {
         : getItemShadingA;
   }
 
-  const ulProps = removeProps(props, 'list', 'advance');
+  const ulProps = removeProps(props, 'list');
 
   return (
     <TransitionMotion
@@ -99,11 +98,8 @@ function SlidingList(props: Props) {
 const mapStateToProps = (state: StoreData) => {
   return { list: state.video.queue.slice(1) };
 };
-const mapDispatchToProps: MapDispatchToPropsFunction<any, any> = dispatch => ({
-  advance: () => dispatch({ type: 'ADVANCE_VIDEO_QUEUE' }),
-});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  nullDispatch,
 )(SlidingList);
