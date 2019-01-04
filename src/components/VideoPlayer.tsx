@@ -123,7 +123,7 @@ function VideoPlayer(props: Props) {
   ) {
     const isCurrent = ref.current === currentPlayer;
     const className =
-      'max-w-full block m-auto ' +
+      'w-full block m-auto ' +
       (isCurrent ? 'z-10 relative' : 'z-0 absolute pin');
     return (
       <video
