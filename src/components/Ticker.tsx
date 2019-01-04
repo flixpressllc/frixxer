@@ -24,6 +24,7 @@ function useWindowWidth() {
 function Ticker(props: Props) {
   const ticker = useRef(null as HTMLDivElement | null);
   const windowWidth = useWindowWidth();
+  const itemsTwice = props.items.concat(props.items);
   useEffect(
     () => {
       const pxPerSecond = props.pxPerSecond || 200;
@@ -43,7 +44,7 @@ function Ticker(props: Props) {
     <div {...divProps}>
       <div className="ticker-wrapper">
         <div ref={ticker} className="ticker">
-          {props.items.map((text, i) => {
+          {itemsTwice.map((text, i) => {
             return (
               <span className="ticker-item" key={i}>
                 {text}
