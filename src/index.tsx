@@ -5,7 +5,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import { loadVideos } from './redux/actions/video';
+import { replaceVideos } from './redux/actions/video';
+import { loadTickers } from './redux/actions/tickers';
+import { loadData } from './api';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -20,5 +22,8 @@ ReactDOM.render(
 serviceWorker.unregister();
 
 if (process.env.NODE_ENV === 'development') {
-  store.dispatch(loadVideos());
+  loadData().then(data => {
+    store.dispatch(replaceVideos(data.videos));
+    store.dispatch(loadTickers(data.tickers));
+  });
 }
