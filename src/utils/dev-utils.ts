@@ -93,3 +93,11 @@ export function fetchVideoData(
     setTimeout(() => r(vids), delay);
   });
 }
+
+export function windowWatch(obj: object) {
+  const w: any = window;
+  if (!w.watch) {
+    w.watch = {};
+  }
+  w.watch = { ...w.watch, ...obj };
+}
