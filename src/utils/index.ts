@@ -7,6 +7,10 @@ export function removeProps<T extends object, U extends keyof T>(
   return objClone;
 }
 
+export function nullDispatch() {
+  return {};
+}
+
 export function mergeClasses(
   ...classes: Array<string | { className?: string }>
 ): string {

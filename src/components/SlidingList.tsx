@@ -1,6 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { TransitionMotion, spring, StaggeredMotion } from 'react-motion';
-import { removeProps } from '../utils';
+import React, { useRef } from 'react';
+import {
+  TransitionMotion,
+  spring,
+  StaggeredMotion,
+  PlainStyle,
+  TransitionPlainStyle,
+} from 'react-motion';
+import { removeProps, nullDispatch } from '../utils';
+import { connect } from 'react-redux';
+import { StoreData } from '../redux/store';
 
 interface Item {
   label: string;
@@ -8,7 +16,7 @@ interface Item {
 }
 
 interface Props extends React.HTMLAttributes<HTMLUListElement> {
-  items: Item[];
+  list: Item[];
 }
 
 const getItemShadingA = (i: number): string => {
@@ -22,25 +30,29 @@ function willLeave() {
   return { y: spring(-100) };
 }
 
-export default function SlidingList(props: Props) {
-  const [list, setList] = useState(props.items);
-  const [previousList, setPreviousList] = useState([] as Item[]);
-  function combineLists(prev: Item[], next: Item[]): Item[] {
-    return prev[0] ? [prev[0]].concat(next) : next;
+function defineStaggeredMotionStyles(
+  lastStyles: PlainStyle[],
+  transitionMotionStyles: TransitionPlainStyle[],
+) {
+  if (!lastStyles!.length) {
+    return transitionMotionStyles.map(x => x.style);
   }
-  const [masterList, setMasterList] = useState(
-    combineLists(previousList, list),
-  );
-  useEffect(
-    () => {
-      if (list !== props.items) {
-        setPreviousList(list);
-        setList(props.items);
-        setMasterList(combineLists(list, props.items));
-      }
-    },
-    [props.items],
-  );
+  return lastStyles!.map((_, i) => {
+    if (!transitionMotionStyles[0]) {
+      return {};
+    }
+    if (transitionMotionStyles[0].style.y === 0) {
+      return { y: 0 };
+    }
+    if (i === 0) {
+      return transitionMotionStyles[0].style;
+    }
+    return { y: spring(lastStyles![i - 1].y) };
+  });
+}
+
+function SlidingList(props: Props) {
+  const { list } = props;
 
   const getItemShading = useRef(getItemShadingA);
   function alternateShading() {
@@ -50,11 +62,11 @@ export default function SlidingList(props: Props) {
         : getItemShadingA;
   }
 
-  const ulProps = removeProps(props, 'items');
+  const ulProps = removeProps(props, 'list');
 
   return (
     <TransitionMotion
-      styles={masterList.map(item => ({
+      styles={list.map(item => ({
         key: item.id.toString(),
         style: { y: 0 },
         data: item,
@@ -64,19 +76,9 @@ export default function SlidingList(props: Props) {
     >
       {transitionMotionStyles => (
         <StaggeredMotion
-          defaultStyles={transitionMotionStyles.map(({ style }) => style)}
+          defaultStyles={transitionMotionStyles.map(x => x.style)}
           styles={lastStyles =>
-            lastStyles!.map((_, i) => {
-              if (transitionMotionStyles[0].style.y === 0) {
-                return { y: 0 };
-              }
-              if (i === 0) {
-                return transitionMotionStyles[0].style;
-              }
-              return {
-                y: spring(lastStyles![i - 1].y),
-              };
-            })
+            defineStaggeredMotionStyles(lastStyles!, transitionMotionStyles)
           }
         >
           {(staggeredMotionStyles: any) => (
@@ -106,3 +108,12 @@ export default function SlidingList(props: Props) {
     </TransitionMotion>
   );
 }
+
+const mapStateToProps = (state: StoreData) => {
+  return { list: state.video.queue.slice(1) };
+};
+
+export default connect(
+  mapStateToProps,
+  nullDispatch,
+)(SlidingList);
