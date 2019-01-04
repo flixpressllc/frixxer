@@ -1,18 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { removeProps } from '../utils';
-import { connect, MapDispatchToPropsFunction } from 'react-redux';
+import { connect } from 'react-redux';
 import { StoreData } from '../redux/store';
+import { advanceQueue } from '../redux/actions/video';
 
-interface ComponentProps {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   videos: string[];
-  advance(): any;
+  onEnded(): any;
 }
-
-interface Props extends React.HTMLAttributes<HTMLDivElement>, ComponentProps {}
 
 function VideoPlayer(props: Props) {
   const [currentSrc, nextSrc] = props.videos;
-  const handleEnded = props.advance;
+  const { onEnded: handleEnded } = props;
 
   const [blocked, setBlocked] = useState(false);
   const play = (playerEl: HTMLVideoElement) => {
@@ -138,7 +137,7 @@ function VideoPlayer(props: Props) {
     );
   }
 
-  const divProps = removeProps(props, 'videos', 'advance');
+  const divProps = removeProps(props, 'videos', 'onEnded');
 
   return (
     <div {...divProps}>
@@ -155,9 +154,9 @@ function VideoPlayer(props: Props) {
 const mapStateToProps = (state: StoreData) => {
   return { videos: state.video.queue.map(v => v.url) };
 };
-const mapDispatchToProps: MapDispatchToPropsFunction<any, any> = dispatch => ({
-  advance: () => dispatch({ type: 'ADVANCE_VIDEO_QUEUE' }),
-});
+const mapDispatchToProps = {
+  onEnded: () => advanceQueue(),
+};
 
 export default connect(
   mapStateToProps,
