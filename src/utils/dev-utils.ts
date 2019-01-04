@@ -84,10 +84,11 @@ function getVideo(): typeof labeledDevVideos[0] {
 }
 
 export function fetchVideoData(
-  delay: number = 2000,
+  delay: number = 0,
   num: number = 5,
 ): Promise<typeof labeledDevVideos> {
-  const vids = Array.from(new Array(num)).map(() => getVideo());
+  // const vids = Array.from(new Array(num)).map(() => getVideo());
+  const vids = labeledDevVideos;
   return new Promise(r => {
     setTimeout(() => r(vids), delay);
   });
