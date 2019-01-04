@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom';
 import AspectRatio from './AspectRatio';
 import { render } from 'react-testing-library';
 
+function ancestorCss(el: HTMLElement | null, classes: string[] = []): string[] {
+  if (!el) {
+    return classes;
+  } else {
+    return ancestorCss(el.parentElement, classes.concat(el.className));
+  }
+}
+
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<AspectRatio ratio="4:3">Hi</AspectRatio>, div);
@@ -28,6 +36,6 @@ it('allows direct className association', () => {
     </AspectRatio>,
   );
 
-  const ratioDiv = getByText('Things').parentElement;
-  expect(ratioDiv).toHaveClass('bg-grey');
+  const ascendingClasses = ancestorCss(getByText('Things'));
+  expect(ascendingClasses).toContain('bg-grey');
 });
