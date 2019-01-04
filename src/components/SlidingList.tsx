@@ -1,5 +1,11 @@
 import React, { useRef } from 'react';
-import { TransitionMotion, spring, StaggeredMotion } from 'react-motion';
+import {
+  TransitionMotion,
+  spring,
+  StaggeredMotion,
+  PlainStyle,
+  TransitionPlainStyle,
+} from 'react-motion';
 import { removeProps, nullDispatch } from '../utils';
 import { connect } from 'react-redux';
 import { StoreData } from '../redux/store';
@@ -22,6 +28,27 @@ const getItemShadingB = (i: number): string => {
 
 function willLeave() {
   return { y: spring(-100) };
+}
+
+function defineStaggeredMotionStyles(
+  lastStyles: PlainStyle[],
+  transitionMotionStyles: TransitionPlainStyle[],
+) {
+  if (!lastStyles!.length) {
+    return transitionMotionStyles.map(x => x.style);
+  }
+  return lastStyles!.map((_, i) => {
+    if (!transitionMotionStyles[0]) {
+      return {};
+    }
+    if (transitionMotionStyles[0].style.y === 0) {
+      return { y: 0 };
+    }
+    if (i === 0) {
+      return transitionMotionStyles[0].style;
+    }
+    return { y: spring(lastStyles![i - 1].y) };
+  });
 }
 
 function SlidingList(props: Props) {
@@ -49,26 +76,10 @@ function SlidingList(props: Props) {
     >
       {transitionMotionStyles => (
         <StaggeredMotion
-          defaultStyles={transitionMotionStyles.map(({ style }) => style)}
-          styles={lastStyles => {
-            if (!lastStyles!.length) {
-              return transitionMotionStyles.map(x => x.style);
-            }
-            return lastStyles!.map((_, i) => {
-              if (!transitionMotionStyles[0]) {
-                return {};
-              }
-              if (transitionMotionStyles[0].style.y === 0) {
-                return { y: 0 };
-              }
-              if (i === 0) {
-                return transitionMotionStyles[0].style;
-              }
-              return {
-                y: spring(lastStyles![i - 1].y),
-              };
-            });
-          }}
+          defaultStyles={transitionMotionStyles.map(x => x.style)}
+          styles={lastStyles =>
+            defineStaggeredMotionStyles(lastStyles!, transitionMotionStyles)
+          }
         >
           {(staggeredMotionStyles: any) => (
             <ul {...ulProps} style={{ listStyle: 'none' }}>
