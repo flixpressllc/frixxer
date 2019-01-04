@@ -50,8 +50,11 @@ function SlidingList(props: Props) {
       {transitionMotionStyles => (
         <StaggeredMotion
           defaultStyles={transitionMotionStyles.map(({ style }) => style)}
-          styles={lastStyles =>
-            lastStyles!.map((_, i) => {
+          styles={lastStyles => {
+            if (!lastStyles!.length) {
+              return transitionMotionStyles.map(x => x.style);
+            }
+            return lastStyles!.map((_, i) => {
               if (!transitionMotionStyles[0]) {
                 return {};
               }
@@ -64,8 +67,8 @@ function SlidingList(props: Props) {
               return {
                 y: spring(lastStyles![i - 1].y),
               };
-            })
-          }
+            });
+          }}
         >
           {(staggeredMotionStyles: any) => (
             <ul {...ulProps} style={{ listStyle: 'none' }}>
