@@ -1,4 +1,4 @@
-export * from './dev-utils/fetch-video-data';
+export * from './dev-utils/get-video-data';
 
 export function windowWatch(obj: object) {
   const w: any = window;
