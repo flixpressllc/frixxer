@@ -18,3 +18,15 @@ export function windowCount(name: string) {
   }
   ++w.count[name];
 }
+
+/**
+ * Returns a value at a later time, via a promise.
+ *
+ * @param value any. This is the exact value returned from the promise
+ * @param ms milliseconds to stall the promise. defaults to 1000
+ */
+export function delay<T extends any>(value: T, ms: number = 1000): Promise<T> {
+  return new Promise(res => {
+    setTimeout(() => res(value), ms);
+  });
+}

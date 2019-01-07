@@ -1,4 +1,5 @@
 import { VideoDetails } from '../../redux/reducers/video';
+import range from 'lodash/range';
 
 function addLocation(vid: string): string {
   return `FrixxerVids/${vid}.mp4`;
@@ -85,13 +86,18 @@ function getVideo(): VideoDetails {
   };
 }
 
-export function fetchVideoData(
-  delay: number = 0,
+export function getVideoData(
+  source: 'local' | 'mediaRobot' = 'local',
   num: number = 5,
-): Promise<VideoDetails[]> {
-  // const vids = Array.from(new Array(num)).map(() => getVideo());
-  const vids = labeledDevVideos;
-  return new Promise(r => {
-    setTimeout(() => r(vids), delay);
-  });
+): VideoDetails[] {
+  switch (source) {
+    case 'local':
+      return range(num).map(i => {
+        return labeledDevVideos[i % labeledDevVideos.length];
+      });
+    case 'mediaRobot':
+      return range(num).map(() => getVideo());
+    default:
+      throw new Error(`Cannot get videos for source ${source}`);
+  }
 }
