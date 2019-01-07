@@ -1,8 +1,13 @@
 import { createReducer } from 'redux-starter-kit';
 import { advanceQueue, replaceVideos } from '../actions/video';
 
+export interface VideoDetails {
+  id: number;
+  url: string;
+  label: string;
+}
 export interface VideoState {
-  queue: Array<{ id: number; url: string; label: string }>;
+  queue: VideoDetails[];
 }
 
 const initialVideoState: VideoState = { queue: [] };
