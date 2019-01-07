@@ -1,29 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Ticker.css';
-import { removeProps } from '../utils';
+import { nullDispatch, removeNonAttributePropsAnd } from '../utils';
+import { StoreData } from '../redux/store';
+import { connect } from 'react-redux';
+import { useWindowWidth } from '../custom-hooks/useWindowWidth';
 
-interface ComponentProps {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   items: string[];
   pxPerSecond?: number;
 }
 
-interface Props extends React.HTMLAttributes<HTMLDivElement>, ComponentProps {}
-
-function useWindowWidth() {
-  const [width, setWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
-  return width;
-}
-
-export default function Ticker(props: Props) {
+function Ticker(props: Props) {
   const ticker = useRef(null as HTMLDivElement | null);
   const windowWidth = useWindowWidth();
+  const itemsTwice = props.items.concat(props.items);
   useEffect(
     () => {
       const pxPerSecond = props.pxPerSecond || 200;
@@ -37,13 +27,13 @@ export default function Ticker(props: Props) {
   );
 
   // Remove non-div props
-  const divProps = removeProps(props, 'pxPerSecond', 'items');
+  const divProps = removeNonAttributePropsAnd(props, 'items');
 
   return (
     <div {...divProps}>
       <div className="ticker-wrapper">
         <div ref={ticker} className="ticker">
-          {props.items.map((text, i) => {
+          {itemsTwice.map((text, i) => {
             return (
               <span className="ticker-item" key={i}>
                 {text}
@@ -55,3 +45,20 @@ export default function Ticker(props: Props) {
     </div>
   );
 }
+
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+type ConnectedProps = Omit<Props, 'items'> & { tickerId: number };
+
+const mapStateToProps = (
+  state: StoreData,
+  ownProps: ConnectedProps,
+): Props => ({
+  items: state.tickers[ownProps.tickerId],
+});
+
+export default (connect(
+  mapStateToProps,
+  nullDispatch,
+)(Ticker) as any) as (props: ConnectedProps) => JSX.Element;
+
+export { Ticker as UnconnectedTicker };
