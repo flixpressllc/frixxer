@@ -3,22 +3,11 @@ import './Ticker.css';
 import { nullDispatch, removeNonAttributePropsAnd } from '../utils';
 import { StoreData } from '../redux/store';
 import { connect } from 'react-redux';
+import { useWindowWidth } from '../custom-hooks/useWindowWidth';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   items: string[];
   pxPerSecond?: number;
-}
-
-function useWindowWidth() {
-  const [width, setWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
-  return width;
 }
 
 function Ticker(props: Props) {
