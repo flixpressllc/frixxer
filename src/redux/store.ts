@@ -1,34 +1,15 @@
-import { configureStore, createReducer } from 'redux-starter-kit';
+import { configureStore } from 'redux-starter-kit';
 import { Store } from 'redux';
-import { advanceQueue, replaceVideos } from './actions/video';
-import { loadTickers } from './actions/tickers';
-
-const initialVideoState: {
-  queue: Array<{ id: number; url: string; label: string }>;
-} = { queue: [] };
-
-const video = createReducer(initialVideoState, {
-  [advanceQueue]: state => {
-    // use of immer in redux-starter-kit allows mutation
-    state.queue.shift();
-  },
-  [replaceVideos]: (state, action) => {
-    state.queue = action.payload;
-  },
-});
-
-const initialTickersState: { [n: number]: string[] } = { 1: [], 2: [], 3: [] };
-const tickers = createReducer(initialTickersState, {
-  [loadTickers]: (_state, action) => action.payload,
-});
+import videoReducer, { VideoState } from './reducers/video';
+import tickersReducer, { TickersState } from './reducers/tickers';
 
 export const store: Store<{
-  video: typeof initialVideoState;
-  tickers: typeof initialTickersState;
+  video: VideoState;
+  tickers: TickersState;
 }> = configureStore({
   reducer: {
-    video,
-    tickers,
+    video: videoReducer,
+    tickers: tickersReducer,
   },
 });
 
