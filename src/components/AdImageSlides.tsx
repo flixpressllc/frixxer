@@ -11,8 +11,8 @@ interface Props extends React.HtmlHTMLAttributes<HTMLDivElement> {
 function AdImageSlides(props: Props) {
   const divProps = removeNonAttributePropsAnd(props);
   return (
-    <div className="w-full h-full p-4" {...divProps}>
-      <div className="w-full h-full relative">
+    <div className="w-full h-full" {...divProps}>
+      <div className="w-full h-full relative overflow-hidden">
         {props.images.length ? (
           <Slideshow
             slides={props.images}
