@@ -53,7 +53,6 @@ class Slideshow extends Component<Props> {
     super(props);
     this.state = {
       currentSlide: props.defaultIndex,
-      showIndex: props.showIndex,
       useDotIndex: props.useDotIndex,
       showArrows: props.showArrows,
       effect: props.effect,
@@ -152,7 +151,7 @@ class Slideshow extends Component<Props> {
   }
 
   public render() {
-    const { slides, showIndex, useDotIndex, effect, showArrows } = this.state;
+    const { slides, useDotIndex, effect, showArrows } = this.state;
 
     let slideEffect = effect === undefined ? 'fade' : effect;
     let slideShowSlides;
@@ -226,7 +225,7 @@ class Slideshow extends Component<Props> {
             />
           )}
 
-          {showIndex && slideShowIndex}
+          {this.props.showIndex && slideShowIndex}
         </div>
       </div>
     );
