@@ -2,8 +2,40 @@ import React, { Component } from 'react';
 import Arrows from './Arrows.js';
 import './Slideshow.css';
 
-class Slideshow extends Component {
-  constructor(props) {
+enum Effect {
+  fade = 'fade',
+  left = 'left',
+  top = 'top',
+  right = 'right',
+  bottom = 'bottom',
+  bounceRight = 'bounce-right',
+  bounceLeft = 'bounce-left',
+}
+
+interface SharedProps {
+  showIndex: boolean;
+  showArrows: boolean;
+  autoplay: boolean;
+  enableKeyboard: boolean;
+  useDotIndex: boolean;
+  slideInterval: number;
+  defaultIndex: boolean;
+  effect: Effect;
+  height: string;
+  width: string;
+}
+
+interface PropsSlides extends Partial<SharedProps> {
+  slides: string[];
+}
+
+interface PropsChildren extends Partial<SharedProps> {
+  children: JSX.Element[] | JSX.Element;
+}
+
+type Props = PropsChildren | PropsSlides;
+class Slideshow extends Component<Props> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       currentSlide: props.defaultIndex,
@@ -25,14 +57,14 @@ class Slideshow extends Component {
     this.handleKeyboard = this.handleKeyboard.bind(this);
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     if (this.state.autoplay) this.runSlideShow();
 
     if (this.state.enableKeyboard)
       document.addEventListener('keydown', this.handleKeyboard);
   }
 
-  handleKeyboard(e) {
+  private handleKeyboard(e) {
     e.keyCode === 37
       ? this.decreaseCount()
       : e.keyCode === 39
@@ -40,30 +72,30 @@ class Slideshow extends Component {
       : null;
   }
 
-  runSlideShow() {
+  private runSlideShow() {
     let intervalId = setInterval(this.autoSlideshow, this.state.slideInterval);
     this.setState({
       intervalId,
     });
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     clearInterval(this.state.intervalId);
     document.removeEventListener('keydown', this.handleKeyboard);
   }
 
-  autoSlideshow() {
+  private autoSlideshow() {
     this.setState({
       currentSlide: (this.state.currentSlide + 1) % this.state.slides.length,
     });
   }
 
-  restartSlideshow() {
+  private restartSlideshow() {
     clearInterval(this.state.intervalId);
     this.runSlideShow();
   }
 
-  increaseCount() {
+  private increaseCount() {
     this.state.effect === 'left'
       ? this.setState({
           effect: 'right',
@@ -80,7 +112,7 @@ class Slideshow extends Component {
     });
   }
 
-  decreaseCount() {
+  private decreaseCount() {
     this.state.effect === 'right'
       ? this.setState({
           effect: 'left',
@@ -103,7 +135,7 @@ class Slideshow extends Component {
     });
   }
 
-  render() {
+  public render() {
     const { slides, showIndex, useDotIndex, effect, showArrows } = this.state;
 
     let slideEffect = effect === undefined ? 'fade' : effect;
