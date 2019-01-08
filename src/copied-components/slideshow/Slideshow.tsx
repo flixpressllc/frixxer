@@ -71,10 +71,13 @@ class Slideshow extends Component<Props> {
   }
 
   public componentDidMount() {
-    if (this.state.autoplay) this.runSlideShow();
+    if (this.state.autoplay) {
+      this.runSlideShow();
+    }
 
-    if (this.state.enableKeyboard)
+    if (this.state.enableKeyboard) {
       document.addEventListener('keydown', this.handleKeyboard);
+    }
   }
 
   private handleKeyboard(e) {
