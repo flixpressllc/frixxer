@@ -49,7 +49,7 @@ class Slideshow extends Component<Props> {
     width: '100%',
   };
 
-  constructor(props: Props) {
+  constructor(props: Props & typeof Slideshow.defaultProps) {
     super(props);
     this.state = {
       currentSlide: props.defaultIndex,
