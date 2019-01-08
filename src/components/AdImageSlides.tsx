@@ -20,7 +20,7 @@ function AdImageSlides(props: Props) {
       <div className="w-full h-full relative overflow-hidden">
         {props.images.length ? (
           <Slideshow
-            slides={props.images}
+            imageUrls={props.images}
             showArrows={false}
             slideInterval={props.slideInterval || 5000}
             enableKeyboard={false}

@@ -3,6 +3,7 @@ import Arrows from './Arrows';
 import './Slideshow.css';
 import range from 'lodash/range';
 import castArray from 'lodash/castArray';
+import { removeNonAttributePropsAnd, mergeClasses } from '../../utils';
 
 enum Effect {
   fade = 'fade',
@@ -14,21 +15,19 @@ enum Effect {
   bounceLeft = 'bounce-left',
 }
 
-interface SharedProps {
+interface SharedProps extends React.HTMLAttributes<HTMLDivElement> {
   showIndex: boolean;
   showArrows: boolean;
-  autoplay: boolean;
+  autoPlay: boolean;
   enableKeyboard: boolean;
   useDotIndex: boolean;
   slideInterval: number;
   defaultIndex: boolean;
-  effect: Effect;
-  height: string;
-  width: string;
+  transitionEffect: Effect;
 }
 
 interface PropsSlides extends Partial<SharedProps> {
-  slides: string[];
+  imageUrls: string[];
 }
 
 interface PropsChildren extends Partial<SharedProps> {
@@ -40,7 +39,7 @@ class Slideshow extends Component<
   Props,
   {
     currentSlide: number;
-    effect: Effect;
+    transitionEffect: Effect;
     slides: JSX.Element[] | string[];
     intervalId: number | undefined;
   }
@@ -48,15 +47,13 @@ class Slideshow extends Component<
   private static defaultProps = {
     showIndex: false,
     showArrows: true,
-    autoplay: true,
+    autoPlay: true,
     enableKeyboard: true,
     useDotIndex: false,
     slideInterval: 2000,
     defaultIndex: 0,
-    effect: 'fade',
-    slides: [] as string[],
-    height: '100%',
-    width: '100%',
+    transitionEffect: 'fade',
+    imageUrls: [] as string[],
   };
 
   constructor(
@@ -66,10 +63,10 @@ class Slideshow extends Component<
     this.state = {
       intervalId: undefined,
       currentSlide: props.defaultIndex,
-      effect: props.effect,
+      transitionEffect: props.transitionEffect,
       slides: this.props.children
         ? castArray((this.props as PropsChildren).children)
-        : (this.props as PropsSlides).slides,
+        : (this.props as PropsSlides).imageUrls,
     };
 
     this.runSlideShow = this.runSlideShow.bind(this);
@@ -81,7 +78,7 @@ class Slideshow extends Component<
   }
 
   public componentDidMount() {
-    if (this.props.autoplay) {
+    if (this.props.autoPlay) {
       this.runSlideShow();
     }
 
@@ -128,34 +125,34 @@ class Slideshow extends Component<
   }
 
   private increaseCount() {
-    this.state.effect === Effect.left
+    this.state.transitionEffect === Effect.left
       ? this.setState({
-          effect: Effect.right,
+          transitionEffect: Effect.right,
         })
-      : this.state.effect === Effect.bounceLeft
+      : this.state.transitionEffect === Effect.bounceLeft
       ? this.setState({
-          effect: Effect.bounceRight,
+          transitionEffect: Effect.bounceRight,
         })
       : null;
 
-    this.props.autoplay ? this.restartSlideshow() : null;
+    this.props.autoPlay ? this.restartSlideshow() : null;
     this.setState({
       currentSlide: (this.state.currentSlide + 1) % this.state.slides.length,
     });
   }
 
   private decreaseCount() {
-    this.state.effect === Effect.right
+    this.state.transitionEffect === Effect.right
       ? this.setState({
-          effect: Effect.left,
+          transitionEffect: Effect.left,
         })
-      : this.state.effect === Effect.bounceRight
+      : this.state.transitionEffect === Effect.bounceRight
       ? this.setState({
-          effect: Effect.bounceLeft,
+          transitionEffect: Effect.bounceLeft,
         })
       : null;
 
-    this.props.autoplay ? this.restartSlideshow() : null;
+    this.props.autoPlay ? this.restartSlideshow() : null;
 
     let currentSlide;
     currentSlide =
@@ -168,30 +165,34 @@ class Slideshow extends Component<
   }
 
   public render() {
-    const { effect, slides } = this.state;
+    const { transitionEffect, slides } = this.state;
 
-    const slideEffect: Effect = effect ? effect : Effect.fade;
+    const slideEffect: Effect = transitionEffect
+      ? transitionEffect
+      : Effect.fade;
     let slideShowSlides;
     let slideShowIndex;
 
     if (!this.props.children) {
-      slideShowSlides = (this.props as PropsSlides).slides.map((slide, i) => {
-        return (
-          <li
-            className={`slide ${effect} ${
-              this.state.currentSlide === i ? 'showing-' + slideEffect : ''
-            }`}
-            key={i}
-            style={{ backgroundImage: `url(${slide})` }}
-          />
-        );
-      });
+      slideShowSlides = (this.props as PropsSlides).imageUrls.map(
+        (slide, i) => {
+          return (
+            <li
+              className={`slide ${transitionEffect} ${
+                this.state.currentSlide === i ? 'showing-' + slideEffect : ''
+              }`}
+              key={i}
+              style={{ backgroundImage: `url(${slide})` }}
+            />
+          );
+        },
+      );
     } else {
       slideShowSlides = castArray((this.props as PropsChildren).children).map(
         (slide, i) => {
           return (
             <li
-              className={`slide ${effect} ${
+              className={`slide ${transitionEffect} ${
                 this.state.currentSlide === i ? 'showing-' + slideEffect : ''
               }`}
               key={i}
@@ -226,13 +227,12 @@ class Slideshow extends Component<
       );
     }
 
+    const divProps = removeNonAttributePropsAnd(this.props);
+
     return (
       <div
-        style={{
-          position: 'absolute',
-          height: this.props.height,
-          width: this.props.width,
-        }}
+        {...divProps}
+        className={mergeClasses('relative w-full h-full', divProps)}
       >
         <div className="slideshow-container">
           <ul className="slides">{slideShowSlides}</ul>

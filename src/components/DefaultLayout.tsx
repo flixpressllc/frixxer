@@ -7,6 +7,7 @@ import SlidingList from './SlidingList';
 import './DefaultLayout.css';
 import PerpetualCountdown from './PerpetualCountdown';
 import AdImageSlides from './AdImageSlides';
+import Slideshow from '../copied-components/slideshow';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -32,13 +33,17 @@ export default function DefaultLayout(props: Props) {
           <div className="DefaultLayout__main-ad bg-yellow-dark center-xy">
             <AdImageSlides adId="main" className="p-4" />
           </div>
-          <div className="DefaultLayout__widgets bg-grey center-xy">
-            Cycling Widgets
-            <ul>
-              <li>Weather</li>
-              <li>Gas</li>
-              <li>Stocks</li>
-            </ul>
+          <div className="DefaultLayout__widgets bg-grey center-xy relative">
+            <Slideshow>
+              <iframe
+                id="map-embed-iframe"
+                height="100%"
+                width="100%"
+                src='https://maps.darksky.net/@temperature,39.000,-95.000,5?domain="+encodeURIComponent(window.location.href)+"&auth=1546977424_6f1d710e51c6954b435b3be73a7058f5&embed=true&amp;timeControl=false&amp;fieldControl=false&amp;defaultField=temperature&amp;defaultUnits=_f'
+              />
+              <div>Gas</div>
+              <div>Stocks</div>
+            </Slideshow>
           </div>
         </div>
         <div className="DefaultLayout__video-area flex flex-col">
