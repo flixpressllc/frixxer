@@ -18,13 +18,13 @@ export default function DefaultLayout(props: Props) {
     <div {...props} className="DefaultLayout bg-blue-darker relative">
       <div className="DefaultLayout__header">
         <div className="DefaultLayout__sponsor1 bg-red center-xy">
-          Core Sponsor
+          <AdImageSlides adId="core1" />
         </div>
         <div className="DefaultLayout__banner bg-blue-light center-xy">
-          Banner
+          <AdImageSlides adId="banner" />
         </div>
         <div className="DefaultLayout__sponsor2 bg-red center-xy">
-          Core Sponsor
+          <AdImageSlides adId="core2" />
         </div>
       </div>
       <div className="DefaultLayout__center">
