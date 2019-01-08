@@ -127,13 +127,13 @@ class Slideshow extends Component<
   }
 
   private increaseCount() {
-    this.state.effect === 'left'
+    this.state.effect === Effect.left
       ? this.setState({
-          effect: 'right',
+          effect: Effect.right,
         })
-      : this.state.effect === 'bounce-left'
+      : this.state.effect === Effect.bounceLeft
       ? this.setState({
-          effect: 'bounce-right',
+          effect: Effect.bounceRight,
         })
       : null;
 
@@ -144,13 +144,13 @@ class Slideshow extends Component<
   }
 
   private decreaseCount() {
-    this.state.effect === 'right'
+    this.state.effect === Effect.right
       ? this.setState({
-          effect: 'left',
+          effect: Effect.left,
         })
-      : this.state.effect === 'bounce-right'
+      : this.state.effect === Effect.bounceRight
       ? this.setState({
-          effect: 'bounce-left',
+          effect: Effect.bounceLeft,
         })
       : null;
 
@@ -169,7 +169,7 @@ class Slideshow extends Component<
   public render() {
     const { effect, slides } = this.state;
 
-    let slideEffect = effect === undefined ? 'fade' : effect;
+    const slideEffect: Effect = effect ? effect : Effect.fade;
     let slideShowSlides;
     let slideShowIndex;
 
