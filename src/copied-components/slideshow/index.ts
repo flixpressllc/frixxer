@@ -2,5 +2,5 @@
 
 // port to Typescript by Don Denton
 
-import * as Slideshow from './Slideshow';
+import { default as Slideshow } from './Slideshow';
 export default Slideshow;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Arrows from './Arrows.js';
+import Arrows from './Arrows';
 import './Slideshow.css';
 import range from 'lodash/range';
 
