@@ -37,7 +37,12 @@ interface PropsChildren extends Partial<SharedProps> {
 type Props = PropsChildren | PropsSlides;
 class Slideshow extends Component<
   Props,
-  { currentSlide: number; effect: Effect; slides: JSX.Element[] | string[] }
+  {
+    currentSlide: number;
+    effect: Effect;
+    slides: JSX.Element[] | string[];
+    intervalId: number | undefined;
+  }
 > {
   private static defaultProps = {
     showIndex: false,
@@ -58,6 +63,7 @@ class Slideshow extends Component<
   ) {
     super(props);
     this.state = {
+      intervalId: undefined,
       currentSlide: props.defaultIndex,
       effect: props.effect,
       slides: this.props.children
@@ -95,14 +101,15 @@ class Slideshow extends Component<
   }
 
   private runSlideShow() {
-    let intervalId = setInterval(this.autoSlideshow, this.props.slideInterval);
     this.setState({
-      intervalId,
+      intervalId: setInterval(this.autoSlideshow, this.props.slideInterval),
     });
   }
 
   public componentWillUnmount() {
-    clearInterval(this.state.intervalId);
+    if (this.state.intervalId) {
+      clearInterval(this.state.intervalId);
+    }
     document.removeEventListener('keydown', this.handleKeyboard);
   }
 
@@ -113,7 +120,9 @@ class Slideshow extends Component<
   }
 
   private restartSlideshow() {
-    clearInterval(this.state.intervalId);
+    if (this.state.intervalId) {
+      clearInterval(this.state.intervalId);
+    }
     this.runSlideShow();
   }
 
