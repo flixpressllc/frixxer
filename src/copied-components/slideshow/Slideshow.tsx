@@ -53,7 +53,6 @@ class Slideshow extends Component<Props> {
     super(props);
     this.state = {
       currentSlide: props.defaultIndex,
-      showArrows: props.showArrows,
       effect: props.effect,
       enableKeyboard: props.enableKeyboard,
       slides: props.slides.length > 0 ? props.slides : props.children,
@@ -149,7 +148,7 @@ class Slideshow extends Component<Props> {
   }
 
   public render() {
-    const { slides, effect, showArrows } = this.state;
+    const { slides, effect } = this.state;
 
     let slideEffect = effect === undefined ? 'fade' : effect;
     let slideShowSlides;
@@ -216,7 +215,7 @@ class Slideshow extends Component<Props> {
         <div className="slideshow-container">
           <ul className="slides">{slideShowSlides}</ul>
 
-          {showArrows && (
+          {this.props.showArrows && (
             <Arrows
               decreaseCount={this.decreaseCount}
               increaseCount={this.increaseCount}
