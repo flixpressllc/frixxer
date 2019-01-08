@@ -6,6 +6,7 @@ import AspectRatio from './AspectRatio';
 import SlidingList from './SlidingList';
 import './DefaultLayout.css';
 import PerpetualCountdown from './PerpetualCountdown';
+import AdImageSlides from './AdImageSlides';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -29,7 +30,7 @@ export default function DefaultLayout(props: Props) {
       <div className="DefaultLayout__center">
         <div className="DefaultLayout__sidebar flex flex-col">
           <div className="DefaultLayout__main-ad bg-yellow-dark center-xy">
-            Ad Element
+            <AdImageSlides adId="main" />
           </div>
           <div className="DefaultLayout__widgets bg-grey center-xy">
             Cycling Widgets
