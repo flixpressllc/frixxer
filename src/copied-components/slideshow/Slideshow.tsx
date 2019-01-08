@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Arrows from './Arrows';
 import './Slideshow.css';
 import range from 'lodash/range';
+import castArray from 'lodash/castArray';
 
 enum Effect {
   fade = 'fade',
@@ -31,7 +32,7 @@ interface PropsSlides extends Partial<SharedProps> {
 }
 
 interface PropsChildren extends Partial<SharedProps> {
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
 }
 
 type Props = PropsChildren | PropsSlides;
@@ -67,7 +68,7 @@ class Slideshow extends Component<
       currentSlide: props.defaultIndex,
       effect: props.effect,
       slides: this.props.children
-        ? (this.props.children as JSX.Element[])
+        ? castArray((this.props as PropsChildren).children)
         : (this.props as PropsSlides).slides,
     };
 
@@ -186,7 +187,7 @@ class Slideshow extends Component<
         );
       });
     } else {
-      slideShowSlides = (this.props.children as JSX.Element[]).map(
+      slideShowSlides = castArray((this.props as PropsChildren).children).map(
         (slide, i) => {
           return (
             <li
