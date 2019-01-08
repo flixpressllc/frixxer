@@ -53,7 +53,6 @@ class Slideshow extends Component<Props> {
     super(props);
     this.state = {
       currentSlide: props.defaultIndex,
-      useDotIndex: props.useDotIndex,
       showArrows: props.showArrows,
       effect: props.effect,
       enableKeyboard: props.enableKeyboard,
@@ -150,7 +149,7 @@ class Slideshow extends Component<Props> {
   }
 
   public render() {
-    const { slides, useDotIndex, effect, showArrows } = this.state;
+    const { slides, effect, showArrows } = this.state;
 
     let slideEffect = effect === undefined ? 'fade' : effect;
     let slideShowSlides;
@@ -183,7 +182,7 @@ class Slideshow extends Component<Props> {
       });
     }
 
-    if (useDotIndex) {
+    if (this.props.useDotIndex) {
       slideShowIndex = (
         <div className="show-index is-dot">
           {slides.map((slide, i) => {
