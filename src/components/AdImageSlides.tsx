@@ -16,8 +16,6 @@ function AdImageSlides(props: Props) {
         {props.images.length ? (
           <Slideshow
             slides={props.images}
-            height={'100%'}
-            width={'100%'}
             showArrows={false}
             slideInterval={5000}
             enableKeyboard={false}

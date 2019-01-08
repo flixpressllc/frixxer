@@ -229,8 +229,8 @@ class Slideshow extends Component<
       <div
         style={{
           position: 'absolute',
-          height: this.props.height || '100%',
-          width: this.props.width || '100%',
+          height: this.props.height,
+          width: this.props.width,
         }}
       >
         <div className="slideshow-container">
