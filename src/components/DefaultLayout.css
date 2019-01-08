@@ -7,9 +7,9 @@
   grid-template-columns: 100%;
   grid-template-rows: 50px 568px 102px;
   grid-template-areas:
-    'header'
-    'center'
-    'footer';
+    "header"
+    "center"
+    "footer";
 }
 
 .DefaultLayout__header {
@@ -18,7 +18,7 @@
   display: grid;
   grid-template-columns: 200px auto 200px;
   grid-template-rows: auto;
-  grid-template-areas: 'sponsor1 banner sponsor2';
+  grid-template-areas: "sponsor1 banner sponsor2";
 }
 
 .DefaultLayout__center {
@@ -28,7 +28,7 @@
   display: grid;
   grid-template-columns: auto 800px;
   grid-template-rows: auto;
-  grid-template-areas: 'sidebar video-area';
+  grid-template-areas: "sidebar video-area";
 }
 
 .DefaultLayout__footer {
@@ -37,7 +37,7 @@
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
-  grid-template-areas: 'tickers';
+  grid-template-areas: "tickers";
 }
 
 .DefaultLayout__logo {
@@ -59,8 +59,8 @@
   grid-template-columns: auto;
   grid-template-rows: 317px auto;
   grid-template-areas:
-    'main-ad'
-    'widgets';
+    "main-ad"
+    "widgets";
 }
 
 .DefaultLayout__video-area {
