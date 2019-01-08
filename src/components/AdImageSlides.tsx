@@ -10,6 +10,7 @@ import Slideshow from '../copied-components/slideshow';
 
 interface Props extends React.HtmlHTMLAttributes<HTMLDivElement> {
   images: string[];
+  slideInterval?: number;
 }
 
 function AdImageSlides(props: Props) {
@@ -21,7 +22,7 @@ function AdImageSlides(props: Props) {
           <Slideshow
             slides={props.images}
             showArrows={false}
-            slideInterval={5000}
+            slideInterval={props.slideInterval || 5000}
             enableKeyboard={false}
           />
         ) : null}
