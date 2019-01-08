@@ -56,7 +56,6 @@ class Slideshow extends Component<Props> {
       useDotIndex: props.useDotIndex,
       showArrows: props.showArrows,
       effect: props.effect,
-      autoplay: props.autoplay,
       enableKeyboard: props.enableKeyboard,
       slides: props.slides.length > 0 ? props.slides : props.children,
     };
@@ -70,7 +69,7 @@ class Slideshow extends Component<Props> {
   }
 
   public componentDidMount() {
-    if (this.state.autoplay) {
+    if (this.props.autoplay) {
       this.runSlideShow();
     }
 
@@ -121,7 +120,7 @@ class Slideshow extends Component<Props> {
         })
       : null;
 
-    this.state.autoplay ? this.restartSlideshow() : null;
+    this.props.autoplay ? this.restartSlideshow() : null;
     this.setState({
       currentSlide: (this.state.currentSlide + 1) % this.state.slides.length,
     });
@@ -138,7 +137,7 @@ class Slideshow extends Component<Props> {
         })
       : null;
 
-    this.state.autoplay ? this.restartSlideshow() : null;
+    this.props.autoplay ? this.restartSlideshow() : null;
 
     let currentSlide;
     currentSlide =
