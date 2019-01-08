@@ -18,19 +18,19 @@ export default function DefaultLayout(props: Props) {
     <div {...props} className="DefaultLayout bg-blue-darker relative">
       <div className="DefaultLayout__header">
         <div className="DefaultLayout__sponsor1 bg-red center-xy">
-          <AdImageSlides adId="core1" />
+          <AdImageSlides adId="core1" className="p-1" />
         </div>
         <div className="DefaultLayout__banner bg-blue-light center-xy">
-          <AdImageSlides adId="banner" />
+          <AdImageSlides adId="banner" className="p-1" />
         </div>
         <div className="DefaultLayout__sponsor2 bg-red center-xy">
-          <AdImageSlides adId="core2" />
+          <AdImageSlides adId="core2" className="p-1" />
         </div>
       </div>
       <div className="DefaultLayout__center">
         <div className="DefaultLayout__sidebar flex flex-col">
           <div className="DefaultLayout__main-ad bg-yellow-dark center-xy">
-            <AdImageSlides adId="main" />
+            <AdImageSlides adId="main" className="p-4" />
           </div>
           <div className="DefaultLayout__widgets bg-grey center-xy">
             Cycling Widgets

@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { removeNonAttributePropsAnd, nullDispatch } from '../utils';
+import {
+  removeNonAttributePropsAnd,
+  nullDispatch,
+  mergeClasses,
+} from '../utils';
 import { StoreData } from '../redux/store';
 import Slideshow from '../copied-components/slideshow';
 
@@ -9,9 +13,9 @@ interface Props extends React.HtmlHTMLAttributes<HTMLDivElement> {
 }
 
 function AdImageSlides(props: Props) {
-  const divProps = removeNonAttributePropsAnd(props);
+  const divProps = removeNonAttributePropsAnd(props, 'images');
   return (
-    <div className="w-full h-full" {...divProps}>
+    <div {...divProps} className={mergeClasses('w-full h-full', divProps)}>
       <div className="w-full h-full relative overflow-hidden">
         {props.images.length ? (
           <Slideshow
