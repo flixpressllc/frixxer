@@ -57,7 +57,6 @@ class Slideshow extends Component<Props> {
     this.state = {
       currentSlide: props.defaultIndex,
       effect: props.effect,
-      enableKeyboard: props.enableKeyboard,
       slides: props.slides.length > 0 ? props.slides : props.children,
     };
 
@@ -74,7 +73,7 @@ class Slideshow extends Component<Props> {
       this.runSlideShow();
     }
 
-    if (this.state.enableKeyboard) {
+    if (this.props.enableKeyboard) {
       document.addEventListener('keydown', this.handleKeyboard);
     }
   }
