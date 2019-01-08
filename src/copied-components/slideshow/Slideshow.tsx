@@ -18,7 +18,7 @@ enum Effect {
 interface SharedProps extends React.HTMLAttributes<HTMLDivElement> {
   showIndex: boolean;
   showArrows: boolean;
-  autoPlay: boolean;
+  disableAutoPlay: boolean;
   enableKeyboard: boolean;
   useDotIndex: boolean;
   slideInterval: number;
@@ -46,11 +46,11 @@ class Slideshow extends Component<
 > {
   private static defaultProps = {
     showIndex: false,
-    showArrows: true,
-    autoPlay: true,
-    enableKeyboard: true,
+    showArrows: false,
+    disableAutoPlay: false,
+    enableKeyboard: false,
     useDotIndex: false,
-    slideInterval: 2000,
+    slideInterval: 5000,
     defaultIndex: 0,
     transitionEffect: 'fade',
     imageUrls: [] as string[],
@@ -78,7 +78,7 @@ class Slideshow extends Component<
   }
 
   public componentDidMount() {
-    if (this.props.autoPlay) {
+    if (!this.props.disableAutoPlay) {
       this.runSlideShow();
     }
 
@@ -135,7 +135,7 @@ class Slideshow extends Component<
         })
       : null;
 
-    this.props.autoPlay ? this.restartSlideshow() : null;
+    !this.props.disableAutoPlay ? this.restartSlideshow() : null;
     this.setState({
       currentSlide: (this.state.currentSlide + 1) % this.state.slides.length,
     });
@@ -152,7 +152,7 @@ class Slideshow extends Component<
         })
       : null;
 
-    this.props.autoPlay ? this.restartSlideshow() : null;
+    !this.props.disableAutoPlay ? this.restartSlideshow() : null;
 
     let currentSlide;
     currentSlide =
