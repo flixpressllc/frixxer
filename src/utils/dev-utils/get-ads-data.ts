@@ -1,8 +1,12 @@
 export function getAdsData() {
   return {
-    core1: ['http://lorempixel.com/200/50/abstract/core-1'],
-    core2: ['http://lorempixel.com/200/50/abstract/core-2'],
-    banner: ['http://lorempixel.com/880/50/food'],
+    core1: [
+      'https://via.placeholder.com/200x50.png/911/fff?text=Core+Sponsor+1',
+    ],
+    core2: [
+      'https://via.placeholder.com/200x50.png/911/fff?text=Core+Sponsor+2',
+    ],
+    banner: ['https://via.placeholder.com/880x50.png/fd007b/fff?text=Banner'],
     main: [
       'https://fillmurray.com/480/317',
       'https://www.placecage.com/480/317',
