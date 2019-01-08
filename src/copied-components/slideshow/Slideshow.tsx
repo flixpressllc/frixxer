@@ -1,4 +1,4 @@
-import React, { Component, ReactChildren } from 'react';
+import React, { Component } from 'react';
 import Arrows from './Arrows.js';
 import './Slideshow.css';
 import range from 'lodash/range';

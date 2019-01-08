@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { removeNonAttributePropsAnd, nullDispatch } from '../utils';
 import { StoreData } from '../redux/store';
-import Slideshow from 'react-slidez';
+import Slideshow from '../copied-components/slideshow';
 
 interface Props extends React.HtmlHTMLAttributes<HTMLDivElement> {
   images: string[];
