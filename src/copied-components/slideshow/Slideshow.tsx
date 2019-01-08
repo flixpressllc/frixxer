@@ -49,7 +49,10 @@ class Slideshow extends Component<Props> {
     width: '100%',
   };
 
-  constructor(props: Props & typeof Slideshow.defaultProps) {
+  constructor(
+    props: Props &
+      typeof Slideshow.defaultProps & { children?: React.ReactChildren },
+  ) {
     super(props);
     this.state = {
       currentSlide: props.defaultIndex,
