@@ -7,7 +7,9 @@
     "interface-name": false,
     "arrow-parens": false,
     "variable-name": [true, "allow-leading-underscore"],
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
+    "no-unused-expression": false
   },
   "rulesDirectory": []
 }

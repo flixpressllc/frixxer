@@ -1,5 +1,6 @@
 export * from './dev-utils/get-video-data';
 export * from './dev-utils/get-ticker-data';
+export * from './dev-utils/get-ads-data';
 
 export function windowWatch(obj: object) {
   const w: any = window;

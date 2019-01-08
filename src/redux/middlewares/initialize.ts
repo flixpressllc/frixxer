@@ -1,11 +1,14 @@
 import { Middleware, AnyAction } from 'redux';
 import {
   initializeApp,
-  loadInitialDataMiddlewareOnly,
+  fetchInitialDataMiddlewareOnly,
+  recieveInitialDataMiddlewareOnly,
+  InitialDataType,
 } from '../actions/initialize';
 import { replaceVideos } from '../actions/video';
 import { loadTickers } from '../actions/tickers';
 import { loadData } from '../../api';
+import { setAds } from '../actions/ads';
 
 const initializeMiddleware: Middleware = store => next => (
   action: AnyAction,
@@ -13,19 +16,34 @@ const initializeMiddleware: Middleware = store => next => (
   next(action);
 
   if (action.type === initializeApp.toString()) {
-    store.dispatch(loadInitialDataMiddlewareOnly());
+    store.dispatch(fetchInitialDataMiddlewareOnly());
   }
 };
 
 const loadInitialData: Middleware = store => next => (action: AnyAction) => {
   next(action);
 
-  if (action.type === loadInitialDataMiddlewareOnly.toString()) {
-    loadData().then(data => {
-      store.dispatch(replaceVideos(data.videos));
-      store.dispatch(loadTickers(data.tickers));
-    });
+  if (action.type === fetchInitialDataMiddlewareOnly.toString()) {
+    loadData().then(data =>
+      store.dispatch(recieveInitialDataMiddlewareOnly(data)),
+    );
   }
 };
 
-export default [initializeMiddleware, loadInitialData];
+const receiveInitialData: Middleware = store => next => (action: AnyAction) => {
+  next(action);
+
+  if (actionIsReceiveData(action)) {
+    store.dispatch(replaceVideos(action.payload.videos));
+    store.dispatch(loadTickers(action.payload.tickers));
+    store.dispatch(setAds(action.payload.ads));
+  }
+};
+
+function actionIsReceiveData(
+  action: AnyAction,
+): action is { type: string; payload: InitialDataType } {
+  return action.type === recieveInitialDataMiddlewareOnly.toString();
+}
+
+export default [initializeMiddleware, loadInitialData, receiveInitialData];
