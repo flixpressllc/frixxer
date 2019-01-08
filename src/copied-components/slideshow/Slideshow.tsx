@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, ReactChildren } from 'react';
 import Arrows from './Arrows.js';
 import './Slideshow.css';
+import range from 'lodash/range';
 
 enum Effect {
   fade = 'fade',
@@ -30,11 +31,14 @@ interface PropsSlides extends Partial<SharedProps> {
 }
 
 interface PropsChildren extends Partial<SharedProps> {
-  children: JSX.Element[] | JSX.Element;
+  children: JSX.Element[];
 }
 
 type Props = PropsChildren | PropsSlides;
-class Slideshow extends Component<Props> {
+class Slideshow extends Component<
+  Props,
+  { currentSlide: number; effect: Effect; slides: JSX.Element[] | string[] }
+> {
   private static defaultProps = {
     showIndex: false,
     showArrows: true,
@@ -44,20 +48,21 @@ class Slideshow extends Component<Props> {
     slideInterval: 2000,
     defaultIndex: 0,
     effect: 'fade',
-    slides: [],
+    slides: [] as string[],
     height: '100%',
     width: '100%',
   };
 
   constructor(
-    props: Props &
-      typeof Slideshow.defaultProps & { children?: React.ReactChildren },
+    props: Props & typeof Slideshow.defaultProps & { children?: JSX.Element[] },
   ) {
     super(props);
     this.state = {
       currentSlide: props.defaultIndex,
       effect: props.effect,
-      slides: props.slides.length > 0 ? props.slides : props.children,
+      slides: this.props.children
+        ? (this.props.children as JSX.Element[])
+        : (this.props as PropsSlides).slides,
     };
 
     this.runSlideShow = this.runSlideShow.bind(this);
@@ -150,14 +155,14 @@ class Slideshow extends Component<Props> {
   }
 
   public render() {
-    const { slides, effect } = this.state;
+    const { effect, slides } = this.state;
 
     let slideEffect = effect === undefined ? 'fade' : effect;
     let slideShowSlides;
     let slideShowIndex;
 
     if (!this.props.children) {
-      slideShowSlides = slides.map((slide, i) => {
+      slideShowSlides = (this.props as PropsSlides).slides.map((slide, i) => {
         return (
           <li
             className={`slide ${effect} ${
@@ -169,24 +174,26 @@ class Slideshow extends Component<Props> {
         );
       });
     } else {
-      slideShowSlides = slides.map((slide, i) => {
-        return (
-          <li
-            className={`slide ${effect} ${
-              this.state.currentSlide === i ? 'showing-' + slideEffect : ''
-            }`}
-            key={i}
-          >
-            {slide}
-          </li>
-        );
-      });
+      slideShowSlides = (this.props.children as JSX.Element[]).map(
+        (slide, i) => {
+          return (
+            <li
+              className={`slide ${effect} ${
+                this.state.currentSlide === i ? 'showing-' + slideEffect : ''
+              }`}
+              key={i}
+            >
+              {slide}
+            </li>
+          );
+        },
+      );
     }
 
     if (this.props.useDotIndex) {
       slideShowIndex = (
         <div className="show-index is-dot">
-          {slides.map((slide, i) => {
+          {range(slides.length).map(i => {
             return (
               <span
                 className={`dot ${
