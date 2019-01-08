@@ -48,11 +48,11 @@ class Slideshow extends Component<Props> {
     height: '100%',
     width: '100%',
   };
+
   constructor(props: Props) {
     super(props);
     this.state = {
       currentSlide: props.defaultIndex,
-      slideInterval: props.slideInterval,
       showIndex: props.showIndex,
       useDotIndex: props.useDotIndex,
       showArrows: props.showArrows,
@@ -89,7 +89,7 @@ class Slideshow extends Component<Props> {
   }
 
   private runSlideShow() {
-    let intervalId = setInterval(this.autoSlideshow, this.state.slideInterval);
+    let intervalId = setInterval(this.autoSlideshow, this.props.slideInterval);
     this.setState({
       intervalId,
     });
