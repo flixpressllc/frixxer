@@ -35,6 +35,19 @@ interface PropsChildren extends Partial<SharedProps> {
 
 type Props = PropsChildren | PropsSlides;
 class Slideshow extends Component<Props> {
+  private static defaultProps = {
+    showIndex: false,
+    showArrows: true,
+    autoplay: true,
+    enableKeyboard: true,
+    useDotIndex: false,
+    slideInterval: 2000,
+    defaultIndex: 0,
+    effect: 'fade',
+    slides: [],
+    height: '100%',
+    width: '100%',
+  };
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -216,19 +229,5 @@ class Slideshow extends Component<Props> {
     );
   }
 }
-
-Slideshow.defaultProps = {
-  showIndex: false,
-  showArrows: true,
-  autoplay: true,
-  enableKeyboard: true,
-  useDotIndex: false,
-  slideInterval: 2000,
-  defaultIndex: 0,
-  effect: 'fade',
-  slides: [],
-  height: '100%',
-  width: '100%',
-};
 
 export default Slideshow;
