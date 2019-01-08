@@ -8,6 +8,7 @@ import {
 import { replaceVideos } from '../actions/video';
 import { loadTickers } from '../actions/tickers';
 import { loadData } from '../../api';
+import { setAds } from '../actions/ads';
 
 const initializeMiddleware: Middleware = store => next => (
   action: AnyAction,
@@ -35,6 +36,7 @@ const receiveInitialData: Middleware = store => next => (action: AnyAction) => {
   if (actionIsReceiveData(action)) {
     store.dispatch(replaceVideos(action.payload.videos));
     store.dispatch(loadTickers(action.payload.tickers));
+    store.dispatch(setAds(action.payload.ads));
   }
 };
 
