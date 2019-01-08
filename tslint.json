@@ -8,7 +8,8 @@
     "arrow-parens": false,
     "variable-name": [true, "allow-leading-underscore"],
     "object-literal-sort-keys": false,
-    "member-ordering": false
+    "member-ordering": false,
+    "no-unused-expression": false
   },
   "rulesDirectory": []
 }
