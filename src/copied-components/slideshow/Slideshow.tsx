@@ -83,12 +83,15 @@ class Slideshow extends Component<
     }
   }
 
-  private handleKeyboard(e) {
-    e.keyCode === 37
-      ? this.decreaseCount()
-      : e.keyCode === 39
-      ? this.increaseCount()
-      : null;
+  private handleKeyboard(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case 37:
+        return this.decreaseCount();
+      case 39:
+        return this.increaseCount();
+      default:
+        return;
+    }
   }
 
   private runSlideShow() {
