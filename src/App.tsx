@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import DefaultLayout from './components/DefaultLayout';
+import DynamicLayout from './components/DynamicLayout';
 import { store } from './redux/store';
 import { initializeApp } from './redux/actions/initialize';
 
@@ -11,7 +11,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <DefaultLayout />
+      <DynamicLayout />
     </Provider>
   );
 }
