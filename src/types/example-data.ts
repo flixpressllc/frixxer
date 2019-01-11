@@ -12,22 +12,41 @@ const examplePresentationBlock: TransitJson.PresentationBlock = {
   content: {
     dataSets: [
       {
-        name: 'ads-for-rotation',
-        data: [
-          'http://ads.com/1.jpg',
-          'http://ads.com/2.jpg',
-          'http://ads.com/3.jpg',
-          'http://ads.com/4.jpg',
-          'http://ads.com/5.jpg',
-          'http://ads.com/6.jpg',
-        ],
+        name: 'ad-images-rotator',
+        data: {
+          defaultDurationInMilliseconds: 5000,
+          ads: [
+            { id: 'some-id-1', url: 'http://ads.com/1.jpg' },
+            { id: 'some-id-2', url: 'http://ads.com/2.jpg' },
+            {
+              id: 'some-id-3',
+              url: 'http://ads.com/3.jpg',
+              durationInMilliseconds: 8000,
+            },
+            { id: 'some-id-4', url: 'http://ads.com/4.jpg' },
+            { id: 'some-id-5', url: 'http://ads.com/5.jpg' },
+            { id: 'some-id-6', url: 'http://ads.com/6.jpg' },
+          ],
+        },
       },
       {
-        name: 'main-videos',
+        name: 'main-videos-with-up-next',
         data: [
-          { title: 'Splashdown!', url: 'http://videos.com/1.mp4' },
-          { title: 'Why choose one dessert?', url: 'http://videos.com/2.mp4' },
-          { title: 'True Facts: Tapir', url: 'http://videos.com/3.mp4' },
+          {
+            id: 'ANY_ID_STRING1',
+            title: 'Splashdown!',
+            url: 'http://videos.com/1.mp4',
+          },
+          {
+            id: 'ANY_ID_STRING2',
+            title: 'Why choose one dessert?',
+            url: 'http://videos.com/2.mp4',
+          },
+          {
+            id: 'ANY_ID_STRING3',
+            title: 'True Facts: Tapir',
+            url: 'http://videos.com/3.mp4',
+          },
         ],
       },
       {
@@ -49,7 +68,7 @@ const examplePresentationBlock: TransitJson.PresentationBlock = {
         height: 200,
         x: 0,
         y: 0,
-        contentDataId: 'ads-for-rotation',
+        contentDataName: 'ads-for-rotation',
       },
       {
         id: 'main-video',
@@ -58,7 +77,7 @@ const examplePresentationBlock: TransitJson.PresentationBlock = {
         height: 200,
         x: 0,
         y: 0,
-        contentDataId: 'main-videos',
+        contentDataName: 'main-videos',
       },
       {
         id: 'logo',
@@ -67,7 +86,7 @@ const examplePresentationBlock: TransitJson.PresentationBlock = {
         height: 200,
         x: 0,
         y: 0,
-        contentDataId: 'channel-logo',
+        contentDataName: 'channel-logo',
       },
     ],
   },

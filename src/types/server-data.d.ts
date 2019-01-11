@@ -52,7 +52,7 @@ declare namespace TransitJson {
     x: number;
     y: number;
     z?: number;
-    contentDataId: DataSet['name']; // refers to the name of data in PresentationContent
+    contentDataName: DataSet['name']; // refers to the name of data in PresentationContent
   }
 
   interface PresentationContent {
