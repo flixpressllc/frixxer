@@ -29,7 +29,7 @@ function UserComponent(props: UserComponentProps) {
   );
   return (
     <div
-      className="group absolute shadow-lg text-xs overflow-auto bg-shade-light p-4 border-shade-lighter border-4"
+      className="group absolute text-xs overflow-auto bg-shade-light p-2 border-shade-lighter border"
       style={{ width, height, top, left, zIndex }}
     >
       <div className="bg-grey-lighter inline-block p-1 invisible group-hover:visible">
